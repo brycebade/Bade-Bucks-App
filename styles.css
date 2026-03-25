@@ -1,0 +1,24 @@
+body {
+  justify-self: center;
+  align-items: center;
+  text-align: center;
+  border: 2px solid black;
+}
+
+.child {
+  border-bottom: 2px solid black;
+}
+
+.weekBlocks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.day {
+  margin: 5px;
+  border: 2px solid black;
+  padding: 5px;
+}
+
+.checkbox {}
