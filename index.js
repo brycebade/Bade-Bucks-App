@@ -22,7 +22,7 @@ const updateChoresCompleted = () => {
         if (dayCheck.checked) {
             count++
         }
-        updatePayDisplay()
+    
     })
     choresDisplay.textContent = `Chores Completed: ${count} / 3`
     updatePayDisplay(count)
