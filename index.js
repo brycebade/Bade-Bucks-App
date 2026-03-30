@@ -1,9 +1,13 @@
 const dayChecks = document.querySelectorAll(".dayCheckbox")
 const choresDisplay = document.getElementById("choresCompleted")
 const payDisplay = document.getElementById("payDue")
+const payCheckbox = document.getElementById("paidCheckbox")
 
 const updatePayDisplay = (count) => {
-    if (count === 0) {
+    if (payCheckbox.checked) {
+        payDisplay.textContent = `Pay Due: $0`
+        stop
+    } else if (count === 0) {
         payDisplay.textContent = `Pay Due: $0`
     } else if (count === 1) {
         payDisplay.textContent = `Pay Due: $25`
@@ -18,6 +22,7 @@ const updatePayDisplay = (count) => {
 
 const updateChoresCompleted = () => {
     let count = 0
+
     dayChecks.forEach((dayCheck) => {
         if (dayCheck.checked) {
             count++
@@ -31,3 +36,5 @@ const updateChoresCompleted = () => {
 dayChecks.forEach((dayCheck) => {
     dayCheck.addEventListener("change", updateChoresCompleted)
 })
+
+payCheckbox.addEventListener("change", updateChoresCompleted)
