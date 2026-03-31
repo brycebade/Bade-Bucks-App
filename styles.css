@@ -1,11 +1,13 @@
 body {
-  justify-self: center;
-  align-items: center;
   text-align: center;
   border: 2px solid black;
 }
 
 .child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
   border-bottom: 2px solid black;
   padding-bottom: 15px;
 }
@@ -14,6 +16,13 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+.weekOf {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
 }
 
 .day {
