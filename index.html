@@ -8,38 +8,48 @@
 
   <body>
     <div class="childGroup">
-      <h2 class="child">Haylee</h2>
-      <h3 class="weekOf" id="week">Week Of</h3>
+      <div class="child">
+        <h2>Haylee</h2>
+        <select name="child" id="childOption">
+          <option value="">Select Child</option>
+        </select>
+      </div>
+      <div class="weekOf">
+        <h3 id="week">Week Of</h3>
+        <select name="weekOf" id="weekOf">
+          <option value="">Select Week</option>
+        </select>
+      </div>
     </div>
     <p>Chores</p>
     <div class="weekBlocks">
       <div class="day">
         <p>Monday</p>
-        <input type="checkbox" id="checkbox" class="dayCheckbox" />
+        <input type="checkbox" class="dayCheckbox" />
       </div>
       <div class="day">
         <p>Tuesday</p>
-        <input type="checkbox" id="checkbox" class="dayCheckbox" />
+        <input type="checkbox" class="dayCheckbox" />
       </div>
       <div class="day">
         <p>Wednesday</p>
-        <input type="checkbox" id="checkbox" class="dayCheckbox" />
+        <input type="checkbox" class="dayCheckbox" />
       </div>
       <div class="day">
         <p>Thursday</p>
-        <input type="checkbox" id="checkbox" class="dayCheckbox" />
+        <input type="checkbox" class="dayCheckbox" />
       </div>
       <div class="day">
         <p>Friday</p>
-        <input type="checkbox" id="checkbox" class="dayCheckbox" />
+        <input type="checkbox" class="dayCheckbox" />
       </div>
       <div class="day">
         <p>Saturday</p>
-        <input type="checkbox" id="checkbox" class="dayCheckbox" />
+        <input type="checkbox" class="dayCheckbox" />
       </div>
       <div class="day">
         <p>Sunday</p>
-        <input type="checkbox" id="checkbox" class="dayCheckbox" />
+        <input type="checkbox" class="dayCheckbox" />
       </div>
     </div>
     <div>
@@ -53,6 +63,6 @@
       </div>
     </div>
 
-    <script src="index.js"></script>
+    <script type="module" src="index.js"></script>
   </body>
 </html>
