@@ -1,4 +1,4 @@
-const children = [
+export const children = [
     {
         id: 1,
         name: "Haylee",
