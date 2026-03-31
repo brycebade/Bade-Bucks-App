@@ -1,12 +1,22 @@
+import { children } from "./data.js"
+
 const dayChecks = document.querySelectorAll(".dayCheckbox")
 const choresDisplay = document.getElementById("choresCompleted")
 const payDisplay = document.getElementById("payDue")
 const payCheckbox = document.getElementById("paidCheckbox")
+const childOption = document.getElementById("childOption")
+
+children.forEach((child) => {
+    const selection = document.createElement("option")
+    selection.textContent = child.name
+    selection.value = child.id
+    childOption.appendChild(selection)
+})
 
 const updatePayDisplay = (count) => {
     if (payCheckbox.checked) {
         payDisplay.textContent = `Pay Due: $0`
-        stop
+        return
     } else if (count === 0) {
         payDisplay.textContent = `Pay Due: $0`
     } else if (count === 1) {
