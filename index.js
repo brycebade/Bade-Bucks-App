@@ -5,8 +5,8 @@ const choresDisplay = document.getElementById("choresCompleted")
 const payDisplay = document.getElementById("payDue")
 const payCheckbox = document.getElementById("paidCheckbox")
 const childOption = document.getElementById("childOption")
-const weekOption = document.getElementById("weekOption")
 const childName = document.getElementById("childName")
+const weekOption = document.getElementById("weekOption")
 
 children.forEach((child) => {
     const childSelection = document.createElement("option")
@@ -17,14 +17,14 @@ children.forEach((child) => {
 
 children.forEach((child) => {
     const weekSelection = document.createElement("option")
-    weekSelection.textContent = child.weekStart
+    weekSelection.textContent = child.weeks[0].weekStart
     weekSelection.value = child.id
     weekOption.appendChild(weekSelection)
-})
+}) 
 
 childOption.addEventListener("change", () => {
     const selectedChild = childOption.value
-
+    
     const foundChild = children.find((child) => {
         return child.id === Number(selectedChild)
     })
@@ -34,7 +34,7 @@ childOption.addEventListener("change", () => {
 const updatePayDisplay = (count) => {
     if (payCheckbox.checked) {
         payDisplay.textContent = `Pay Due: $0`
-        stop
+        return
     } else if (count === 0) {
         payDisplay.textContent = `Pay Due: $0`
     } else if (count === 1) {
@@ -62,7 +62,13 @@ const updateChoresCompleted = () => {
 }
 
 dayChecks.forEach((dayCheck) => {
-    dayCheck.addEventListener("change", updateChoresCompleted)
+    dayCheck.addEventListener("change", (event) => {
+        const selectedChildId = childOption.value
+        const day = event.target.id
+        const isChecked = event.target.checked
+
+        updateChoresCompleted()
+    })    
 })
 
 payCheckbox.addEventListener("change", updateChoresCompleted)
