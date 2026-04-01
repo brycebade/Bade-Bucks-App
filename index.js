@@ -5,18 +5,36 @@ const choresDisplay = document.getElementById("choresCompleted")
 const payDisplay = document.getElementById("payDue")
 const payCheckbox = document.getElementById("paidCheckbox")
 const childOption = document.getElementById("childOption")
+const weekOption = document.getElementById("weekOption")
+const childName = document.getElementById("childName")
 
 children.forEach((child) => {
-    const selection = document.createElement("option")
-    selection.textContent = child.name
-    selection.value = child.id
-    childOption.appendChild(selection)
+    const childSelection = document.createElement("option")
+    childSelection.textContent = child.name
+    childSelection.value = child.id
+    childOption.appendChild(childSelection)
+})
+
+children.forEach((child) => {
+    const weekSelection = document.createElement("option")
+    weekSelection.textContent = child.weekStart
+    weekSelection.value = child.id
+    weekOption.appendChild(weekSelection)
+})
+
+childOption.addEventListener("change", () => {
+    const selectedChild = childOption.value
+
+    const foundChild = children.find((child) => {
+        return child.id === Number(selectedChild)
+    })
+    childName.textContent = foundChild.name
 })
 
 const updatePayDisplay = (count) => {
     if (payCheckbox.checked) {
         payDisplay.textContent = `Pay Due: $0`
-        return
+        stop
     } else if (count === 0) {
         payDisplay.textContent = `Pay Due: $0`
     } else if (count === 1) {
