@@ -67,8 +67,23 @@ dayChecks.forEach((dayCheck) => {
         const day = event.target.id
         const isChecked = event.target.checked
 
+        if (selectedChildId === "") {
+            return
+        }
+
+       const selectedChild = children.find((child) => {
+        return child.id === Number(selectedChildId)
+       })
+
+       if (!selectedChild) {
+        
+       }
+    
+        selectedChild.weeks[0][day] = isChecked
+    
         updateChoresCompleted()
     })    
 })
 
 payCheckbox.addEventListener("change", updateChoresCompleted)
+
