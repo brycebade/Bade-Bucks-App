@@ -8,6 +8,8 @@ const childOption = document.getElementById("childOption")
 const childName = document.getElementById("childName")
 const weekOption = document.getElementById("weekOption")
 
+// POPULATE DROP DOWN LISTS
+
 children.forEach((child) => {
     const childSelection = document.createElement("option")
     childSelection.textContent = child.name
@@ -22,14 +24,33 @@ children.forEach((child) => {
     weekOption.appendChild(weekSelection)
 }) 
 
+// FUNCTIONS OF CHILD DROP DOWN LIST
+
 childOption.addEventListener("change", () => {
     const selectedChild = childOption.value
     
     const foundChild = children.find((child) => {
         return child.id === Number(selectedChild)
     })
+
+    if (!foundChild) {
+        childName.textContent = ""
+        return
+    }
+ 
     childName.textContent = foundChild.name
+
+    dayChecks.forEach((dayCheck) => {
+        dayCheck.checked = false
+    })
+    
+    payCheckbox.checked = false
+
+    choresDisplay.textContent = `Chores Completed: 0`
+    payDisplay.textContent = `Pay Due: $0`
 })
+
+// PAY DUE DISPLAY
 
 const updatePayDisplay = (count, selectedChild) => {
     if (payCheckbox.checked) {
@@ -40,6 +61,8 @@ const updatePayDisplay = (count, selectedChild) => {
     const rate = selectedChild.perChoreRate
     payDisplay.textContent = `Pay Due: $${count * rate}`
 }
+
+// COUNT CHORES & CHECKED BOXES
 
 const updateChoresCompleted = () => {
     const selectedChildId = childOption.value
@@ -80,6 +103,7 @@ dayChecks.forEach((dayCheck) => {
        })
 
        if (!selectedChild) {
+        return
        }
     
         selectedChild.weeks[0][day] = isChecked
@@ -87,5 +111,7 @@ dayChecks.forEach((dayCheck) => {
         updateChoresCompleted()
     })       
 })
+
+// UPDATE PAY
 
 payCheckbox.addEventListener("change", updateChoresCompleted)
