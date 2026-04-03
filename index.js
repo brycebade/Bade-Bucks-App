@@ -31,34 +31,38 @@ childOption.addEventListener("change", () => {
     childName.textContent = foundChild.name
 })
 
-const updatePayDisplay = (count) => {
+const updatePayDisplay = (count, selectedChild) => {
     if (payCheckbox.checked) {
         payDisplay.textContent = `Pay Due: $0`
         return
-    } else if (count === 0) {
-        payDisplay.textContent = `Pay Due: $0`
-    } else if (count === 1) {
-        payDisplay.textContent = `Pay Due: $25`
-    } else if (count === 2) {
-        payDisplay.textContent = `Pay Due: $50`
-    } else if (count === 3) {
-        payDisplay.textContent = `Pay Due: $75`
-    } else {
-        payDisplay.textContent = `Pay Due: negotiable`
     }
+
+    const rate = selectedChild.perChoreRate
+    payDisplay.textContent = `Pay Due: $${count * rate}`
 }
 
 const updateChoresCompleted = () => {
+    const selectedChildId = childOption.value
+
+    const selectedChild = children.find((child) => {
+        return child.id === Number(selectedChildId)
+       })
+
     let count = 0
 
     dayChecks.forEach((dayCheck) => {
         if (dayCheck.checked) {
             count++
         }
-    
     })
-    choresDisplay.textContent = `Chores Completed: ${count} / 3`
-    updatePayDisplay(count)
+
+    if (!selectedChild) {
+        payDisplay.textContent = `Pay Due: `
+        return
+    }
+
+    choresDisplay.textContent = `Chores Completed: ${count}`
+    updatePayDisplay(count, selectedChild)
 }
 
 dayChecks.forEach((dayCheck) => {
@@ -76,14 +80,12 @@ dayChecks.forEach((dayCheck) => {
        })
 
        if (!selectedChild) {
-        
        }
     
         selectedChild.weeks[0][day] = isChecked
     
         updateChoresCompleted()
-    })    
+    })       
 })
 
 payCheckbox.addEventListener("change", updateChoresCompleted)
-
