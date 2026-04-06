@@ -7,6 +7,7 @@ const payCheckbox = document.getElementById("paidCheckbox")
 const childOption = document.getElementById("childOption")
 const childName = document.getElementById("childName")
 const weekOption = document.getElementById("weekOption")
+const weekText = document.getElementById("week")
 
 // POPULATE DROP DOWN LISTS
 
@@ -17,12 +18,12 @@ children.forEach((child) => {
     childOption.appendChild(childSelection)
 })
 
-children.forEach((child) => {
-    const weekSelection = document.createElement("option")
-    weekSelection.textContent = child.weeks[0].weekStart
-    weekSelection.value = child.id
-    weekOption.appendChild(weekSelection)
-}) 
+// CHANGE TEXT ON WEEK OF 
+
+weekOption.addEventListener("change", () => {
+    const selectedWeek = weekOption.value
+    weekText.textContent = `Week Of: ${selectedWeek}`
+})
 
 // FUNCTIONS OF CHILD DROP DOWN LIST
 
@@ -33,10 +34,21 @@ childOption.addEventListener("change", () => {
         return child.id === Number(selectedChild)
     })
 
+    weekOption.innerHTML = `<option value="">Select Week</option>`
+
     if (!foundChild) {
         childName.textContent = ""
         return
     }
+
+    foundChild.weeks.forEach((week) => {
+        const weekSelection = document.createElement("option")
+        weekSelection.textContent = week.weekStart
+        weekSelection.value = week.weekStart
+        weekOption.appendChild(weekSelection)
+    }) 
+
+    weekText.textContent = "Week Of: "
  
     childName.textContent = foundChild.name
 
@@ -58,8 +70,8 @@ const updatePayDisplay = (count, selectedChild) => {
         return
     }
 
-    const rate = selectedChild.perChoreRate
-    payDisplay.textContent = `Pay Due: $${count * rate}`
+    const pay = selectedChild.payRates[count]
+    payDisplay.textContent = `Pay Due: $${pay}`
 }
 
 // COUNT CHORES & CHECKED BOXES
