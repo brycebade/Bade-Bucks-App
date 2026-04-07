@@ -37,3 +37,28 @@ body {
   align-items: center;
   gap: 100px;
 }
+
+/* MEDIA QUERIES */
+
+@media (max-width: 600px) {
+  .child,
+  .weekOf,
+  .pay {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .weekBlocks {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .day {
+    width: 90%;
+  }
+
+  body {
+    font-size: 18px;
+    padding: 10px;
+  }
+}
