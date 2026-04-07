@@ -21,8 +21,38 @@ children.forEach((child) => {
 // CHANGE TEXT ON WEEK OF 
 
 weekOption.addEventListener("change", () => {
-    const selectedWeek = weekOption.value
-    weekText.textContent = `Week Of: ${selectedWeek}`
+    const selectedChildId = childOption.value
+    const selectedWeekStart = weekOption.value
+
+    weekText.textContent = `Week Of: ${selectedWeekStart}`
+
+    if (selectedChildId === "" || selectedWeekStart === "") {
+        return
+    }
+
+    const selectedChild = children.find((child) => {
+        return child.id === Number(selectedChildId)
+    })
+
+    if (!selectedChild) {
+        return
+    }
+
+    const selectedWeek = selectedChild.weeks.find((week) => {
+        return week.weekStart === selectedWeekStart
+    })
+
+    if (!selectedWeek) {
+        return
+    }
+
+    dayChecks.forEach((dayCheck) => {
+        const day = dayCheck.id
+        dayCheck.checked = selectedWeek[day]
+    })
+
+    payCheckbox.checked = selectedWeek.isPaid
+    updateChoresCompleted()
 })
 
 // FUNCTIONS OF CHILD DROP DOWN LIST
@@ -103,10 +133,11 @@ const updateChoresCompleted = () => {
 dayChecks.forEach((dayCheck) => {
     dayCheck.addEventListener("change", (event) => {
         const selectedChildId = childOption.value
+        const selectedWeekStart = weekOption.value
         const day = event.target.id
         const isChecked = event.target.checked
 
-        if (selectedChildId === "") {
+        if (selectedChildId === "" || selectedWeekStart === "") {
             return
         }
 
@@ -117,13 +148,47 @@ dayChecks.forEach((dayCheck) => {
        if (!selectedChild) {
         return
        }
+
+       const selectedWeek = selectedChild.weeks.find((week) => {
+        return week.weekStart === selectedWeekStart
+       })
+       
+       if (!selectedWeek) {
+        return
+       }
+
+       selectedWeek[day] = isChecked
     
-        selectedChild.weeks[0][day] = isChecked
-    
-        updateChoresCompleted()
+       updateChoresCompleted()
     })       
 })
 
 // UPDATE PAY
 
-payCheckbox.addEventListener("change", updateChoresCompleted)
+payCheckbox.addEventListener("change", () => {
+    const selectedChildId = childOption.value
+    const selectedWeekStart = weekOption.value
+
+    if (selectedChildId === "" || selectedWeekStart === "") {
+        return
+    }
+
+    const selectedChild = child.find((child) => {
+        return child.id === Number(selectedChildId)
+    })
+
+    if (!selectedChildId) {
+        return
+    }
+
+    const selectedWeek = selectedChild.weeks.find((week) => {
+        return week.weekStart === selectedWeekStart
+    })
+
+    if (!selectedWeek) {
+        return
+    }
+
+    selectedWeek.isPaid = payCheckbox.checked
+    updateChoresCompleted()
+})
