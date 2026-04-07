@@ -41,6 +41,10 @@ body {
 /* MEDIA QUERIES */
 
 @media (max-width: 768px) {
+  body {
+    max-width: 100%vw;
+  }
+
   .child,
   .weekOf,
   .pay {
@@ -54,7 +58,9 @@ body {
   }
 
   .day {
-    width: 90%;
+    flex-direction: flex;
+    wrap: flex-wrap;
+    width: 50vw;
   }
 
   body {
