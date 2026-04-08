@@ -173,7 +173,7 @@ payCheckbox.addEventListener("change", () => {
         return
     }
 
-    const selectedChild = child.find((child) => {
+    const selectedChild = children.find((child) => {
         return child.id === Number(selectedChildId)
     })
 
@@ -190,5 +190,14 @@ payCheckbox.addEventListener("change", () => {
     }
 
     selectedWeek.isPaid = payCheckbox.checked
+
+      dayChecks.forEach((dayCheck) => {
+        if (payCheckbox.checked === true) {
+            dayCheck.disabled = true
+        } else {
+            dayCheck.disabled = false
+        }
+    })
+    
     updateChoresCompleted()
 })
