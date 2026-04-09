@@ -198,6 +198,18 @@ payCheckbox.addEventListener("change", () => {
             dayCheck.disabled = false
         }
     })
+
+     if (payCheckbox.checked === false) {
+        const correctPassword = "05012021"
+        const userInput = prompt("Enter Password")
+
+    if (userInput === correctPassword) {
+        return
+    } else {
+        payCheckbox.checked = true
+        alert("Permission Denied")
+    }
+}
     
     updateChoresCompleted()
 })
