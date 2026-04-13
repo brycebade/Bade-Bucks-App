@@ -1,4 +1,4 @@
-export const children = [
+const children = [
     {
         id: 1,
         name: "Haylee",
@@ -180,3 +180,5 @@ export const children = [
         ]
     }
 ]
+
+module.exports = { children }
