@@ -1,4 +1,4 @@
-const { children } = require("./data.js")
+import { children } from "./data.js"
 
 const dayChecks = document.querySelectorAll(".dayCheckbox");
 const choresDisplay = document.getElementById("choresCompleted");
