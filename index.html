@@ -1,69 +1,104 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bade Bucks</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
+<html lang="en" data-theme="synthwave">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bade Bucks</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body class="min-h-screen">
 
-  <body>
-    <div class="childGroup">
-      <div class="child">
-        <h2 id="childName"></h2>
-        <select name="child" id="childOption">
-          <option value="">Select Child</option>
-        </select>
-      </div>
-      <div class="weekOf">
-        <h3 id="week"></h3>
-        <select name="weekOf" id="weekOption">
-          <option value="">Select Week</option>
-        </select>
+    <div class="navbar bg-base-300">
+      <div class="flex-1">
+        <a class="btn btn-ghost text-xl">Bade Bucks</a>
       </div>
     </div>
-    <p>Chores</p>
-    <div class="weekBlocks">
-      <div class="day">
-        <p>Monday</p>
-        <input type="checkbox" class="dayCheckbox" id="monday" />
-      </div>
-      <div class="day">
-        <p>Tuesday</p>
-        <input type="checkbox" class="dayCheckbox" id="tuesday" />
-      </div>
-      <div class="day">
-        <p>Wednesday</p>
-        <input type="checkbox" class="dayCheckbox" id="wednesday" />
-      </div>
-      <div class="day">
-        <p>Thursday</p>
-        <input type="checkbox" class="dayCheckbox" id="thursday" />
-      </div>
-      <div class="day">
-        <p>Friday</p>
-        <input type="checkbox" class="dayCheckbox" id="friday" />
-      </div>
-      <div class="day">
-        <p>Saturday</p>
-        <input type="checkbox" class="dayCheckbox" id="saturday" />
-      </div>
-      <div class="day">
-        <p>Sunday</p>
-        <input type="checkbox" class="dayCheckbox" id="sunday" />
-      </div>
-    </div>
-    <div>
-      <p id="choresCompleted">Chores Completed: 0</p>
-      <div class="pay">
-        <p id="payDue">Pay Due: $0</p>
-        <div class="paidSection">
-          <label for="paidCheckbox">Paid</label>
-          <input class="paidCheckbox" id="paidCheckbox" type="checkbox">
+  
+    <div class="container mx-auto p-4 max-w-2xl">
+      <div class="card bg-base-100 shadow-xl">
+        <div class="card-body">
+          
+          <h2 class="card-title justify-center text-2xl">Select Child</h2>
+          
+          <select id="childOption" class="select select-bordered select-lg w-full max-w-xs mb-4">
+            <option disabled selected>Select Child</option>
+          </select>
+  
+          <div class="mb-4">
+            <label class="label">
+              <span class="label-text">Child Name</span>
+            </label>
+            <div id="childName" class="text-lg font-semibold"></div>
+          </div>
+  
+          <h2 class="card-title justify-center text-2xl mt-6">Select Week</h2>
+          
+          <select id="weekOption" class="select select-bordered select-lg w-full max-w-xs mb-4">
+            <option disabled selected>Select Week</option>
+          </select>
+  
+          <div class="mb-4">
+            <span id="week" class="text-lg">Week Of: </span>
+          </div>
+  
+          <div class="divider"></div>
+  
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div id="choresCompleted" class="alert alert-success">
+              <span>Chores Completed: 0</span>
+            </div>
+            <div id="payDue" class="alert alert-primary">
+              <span>Pay Due: $0</span>
+            </div>
+          </div>
+  
+          <div class="divider">Daily Chores</div>
+  
+          <div class="space-y-2">
+            <label class="label cursor-pointer">
+              <span class="label-text">Monday</span> 
+              <input type="checkbox" id="monday" class="checkbox checkbox-primary dayCheckbox" />
+            </label>
+            <label class="label cursor-pointer">
+              <span class="label-text">Tuesday</span> 
+              <input type="checkbox" id="tuesday" class="checkbox checkbox-primary dayCheckbox" />
+            </label>
+            <label class="label cursor-pointer">
+              <span class="label-text">Wednesday</span> 
+              <input type="checkbox" id="wednesday" class="checkbox checkbox-primary dayCheckbox" />
+            </label>
+            <label class="label cursor-pointer">
+              <span class="label-text">Thursday</span> 
+              <input type="checkbox" id="thursday" class="checkbox checkbox-primary dayCheckbox" />
+            </label>
+            <label class="label cursor-pointer">
+              <span class="label-text">Friday</span> 
+              <input type="checkbox" id="friday" class="checkbox checkbox-primary dayCheckbox" />
+            </label>
+            <label class="label cursor-pointer">
+              <span class="label-text">Saturday</span> 
+              <input type="checkbox" id="saturday" class="checkbox checkbox-primary dayCheckbox" />
+            </label>
+            <label class="label cursor-pointer">
+              <span class="label-text">Sunday</span> 
+              <input type="checkbox" id="sunday" class="checkbox checkbox-primary dayCheckbox" />
+            </label>
+          </div>
+  
+          <div class="divider"></div>
+  
+          <div class="flex justify-center">
+            <label class="label cursor-pointer">
+              <span class="label-text font-semibold">Mark Week as Paid</span> 
+              <input type="checkbox" id="paidCheckbox" class="checkbox checkbox-success" />
+            </label>
+          </div>
+  
         </div>
       </div>
     </div>
 
-    <script type="module" src="index.js"></script>
+    <script src="/src/index.js"></script>
   </body>
 </html>
