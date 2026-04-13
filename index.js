@@ -1,212 +1,210 @@
-import { children } from "./data.js"
+const { children } = require("./data.js")
 
-const dayChecks = document.querySelectorAll(".dayCheckbox")
-const choresDisplay = document.getElementById("choresCompleted")
-const payDisplay = document.getElementById("payDue")
-const payCheckbox = document.getElementById("paidCheckbox")
-const childOption = document.getElementById("childOption")
-const childName = document.getElementById("childName")
-const weekOption = document.getElementById("weekOption")
-const weekText = document.getElementById("week")
+const dayChecks = document.querySelectorAll(".dayCheckbox");
+const choresDisplay = document.getElementById("choresCompleted");
+const payDisplay = document.getElementById("payDue");
+const payCheckbox = document.getElementById("paidCheckbox");
+const childOption = document.getElementById("childOption");
+const childName = document.getElementById("childName");
+const weekOption = document.getElementById("weekOption");
+const weekText = document.getElementById("week");
 
-// POPULATE DROP DOWN LISTS
+// POPULATE CHILD DROP DOWN LISTS
 
 children.forEach((child) => {
-    const childSelection = document.createElement("option")
-    childSelection.textContent = child.name
-    childSelection.value = child.id
-    childOption.appendChild(childSelection)
-})
+  const childSelection = document.createElement("option");
+  childSelection.textContent = child.name;
+  childSelection.value = child.id;
+  childOption.appendChild(childSelection);
+});
 
-// CHANGE TEXT ON WEEK OF 
+// CHANGE TEXT ON WEEK AND POPULATE DROP DOWN
 
 weekOption.addEventListener("change", () => {
-    const selectedChildId = childOption.value
-    const selectedWeekStart = weekOption.value
+  const selectedChildId = childOption.value;
+  const selectedWeekStart = weekOption.value;
 
-    weekText.textContent = `Week Of: ${selectedWeekStart}`
+  weekText.textContent = `Week Of: ${selectedWeekStart}`;
 
-    if (selectedChildId === "" || selectedWeekStart === "") {
-        return
-    }
+  if (selectedChildId === "" || selectedWeekStart === "") {
+    return;
+  }
 
-    const selectedChild = children.find((child) => {
-        return child.id === Number(selectedChildId)
-    })
+  const selectedChild = children.find((child) => {
+    return child.id === Number(selectedChildId);
+  });
 
-    if (!selectedChild) {
-        return
-    }
+  if (!selectedChild) {
+    return;
+  }
 
-    const selectedWeek = selectedChild.weeks.find((week) => {
-        return week.weekStart === selectedWeekStart
-    })
+  const selectedWeek = selectedChild.weeks.find((week) => {
+    return week.weekStart === selectedWeekStart;
+  });
 
-    if (!selectedWeek) {
-        return
-    }
+  if (!selectedWeek) {
+    return;
+  }
 
-    dayChecks.forEach((dayCheck) => {
-        const day = dayCheck.id
-        dayCheck.checked = selectedWeek[day]
-    })
+  dayChecks.forEach((dayCheck) => {
+    const day = dayCheck.id;
+    dayCheck.checked = selectedWeek[day];
+  });
 
-    payCheckbox.checked = selectedWeek.isPaid
-    updateChoresCompleted()
-})
+  payCheckbox.checked = selectedWeek.isPaid;
+  updateChoresCompleted();
+});
 
 // FUNCTIONS OF CHILD DROP DOWN LIST
 
 childOption.addEventListener("change", () => {
-    const selectedChild = childOption.value
-    
-    const foundChild = children.find((child) => {
-        return child.id === Number(selectedChild)
-    })
+  const selectedChild = childOption.value;
 
-    weekOption.innerHTML = `<option value="">Select Week</option>`
+  const foundChild = children.find((child) => {
+    return child.id === Number(selectedChild);
+  });
 
-    if (!foundChild) {
-        childName.textContent = ""
-        return
-    }
+  weekOption.innerHTML = `<option value="">Select Week</option>`;
 
-    foundChild.weeks.forEach((week) => {
-        const weekSelection = document.createElement("option")
-        weekSelection.textContent = week.weekStart
-        weekSelection.value = week.weekStart
-        weekOption.appendChild(weekSelection)
-    }) 
+  if (!foundChild) {
+    childName.textContent = "";
+    return;
+  }
 
-    weekText.textContent = "Week Of: "
- 
-    childName.textContent = foundChild.name
+  foundChild.weeks.forEach((week) => {
+    const weekSelection = document.createElement("option");
+    weekSelection.textContent = week.weekStart;
+    weekSelection.value = week.weekStart;
+    weekOption.appendChild(weekSelection);
+  });
 
-    dayChecks.forEach((dayCheck) => {
-        dayCheck.checked = false
-    })
-    
-    payCheckbox.checked = false
+  weekText.textContent = "Week Of: ";
 
-    choresDisplay.textContent = `Chores Completed: 0`
-    payDisplay.textContent = `Pay Due: $0`
-})
+  childName.textContent = foundChild.name;
+
+  dayChecks.forEach((dayCheck) => {
+    dayCheck.checked = false;
+  });
+
+  payCheckbox.checked = false;
+
+  choresDisplay.textContent = `Chores Completed: 0`;
+  payDisplay.textContent = `Pay Due: $0`;
+});
 
 // PAY DUE DISPLAY
 
 const updatePayDisplay = (count, selectedChild) => {
-    if (payCheckbox.checked) {
-        payDisplay.textContent = `Pay Due: $0`
-        return
-    }
+  if (payCheckbox.checked) {
+    payDisplay.textContent = `Pay Due: $0`;
+    return;
+  }
 
-    const pay = selectedChild.payRates[count]
-    payDisplay.textContent = `Pay Due: $${pay}`
-}
+  const pay = selectedChild.payRates[count];
+  payDisplay.textContent = `Pay Due: $${pay}`;
+};
 
 // COUNT CHORES & CHECKED BOXES
 
 const updateChoresCompleted = () => {
-    const selectedChildId = childOption.value
+  const selectedChildId = childOption.value;
 
-    const selectedChild = children.find((child) => {
-        return child.id === Number(selectedChildId)
-       })
+  const selectedChild = children.find((child) => {
+    return child.id === Number(selectedChildId);
+  });
 
-    let count = 0
+  let count = 0;
 
-    dayChecks.forEach((dayCheck) => {
-        if (dayCheck.checked) {
-            count++
-        }
-    })
-
-    if (!selectedChild) {
-        payDisplay.textContent = `Pay Due: `
-        return
+  dayChecks.forEach((dayCheck) => {
+    if (dayCheck.checked) {
+      count++;
     }
+  });
 
-    choresDisplay.textContent = `Chores Completed: ${count}`
-    updatePayDisplay(count, selectedChild)
-}
+  if (!selectedChild) {
+    payDisplay.textContent = `Pay Due: `;
+    return;
+  }
+
+  choresDisplay.textContent = `Chores Completed: ${count}`;
+  updatePayDisplay(count, selectedChild);
+};
 
 dayChecks.forEach((dayCheck) => {
-    dayCheck.addEventListener("change", (event) => {
-        const selectedChildId = childOption.value
-        const selectedWeekStart = weekOption.value
-        const day = event.target.id
-        const isChecked = event.target.checked
+  dayCheck.addEventListener("change", (event) => {
+    const selectedChildId = childOption.value;
+    const selectedWeekStart = weekOption.value;
+    const day = event.target.id;
+    const isChecked = event.target.checked;
 
-        if (selectedChildId === "" || selectedWeekStart === "") {
-            return
-        }
+    if (selectedChildId === "" || selectedWeekStart === "") {
+      return;
+    }
 
-       const selectedChild = children.find((child) => {
-        return child.id === Number(selectedChildId)
-       })
+    const selectedChild = children.find((child) => {
+      return child.id === Number(selectedChildId);
+    });
 
-       if (!selectedChild) {
-        return
-       }
+    if (!selectedChild) {
+      return;
+    }
 
-       const selectedWeek = selectedChild.weeks.find((week) => {
-        return week.weekStart === selectedWeekStart
-       })
-       
-       if (!selectedWeek) {
-        return
-       }
+    const selectedWeek = selectedChild.weeks.find((week) => {
+      return week.weekStart === selectedWeekStart;
+    });
 
-       selectedWeek[day] = isChecked
-    
-       updateChoresCompleted()
-    })       
-})
+    if (!selectedWeek) {
+      return;
+    }
+
+    selectedWeek[day] = isChecked;
+
+    updateChoresCompleted();
+  });
+});
 
 // UPDATE PAY
 
 payCheckbox.addEventListener("change", () => {
-    const selectedChildId = childOption.value
-    const selectedWeekStart = weekOption.value
+  const selectedChildId = childOption.value;
+  const selectedWeekStart = weekOption.value;
 
-    if (selectedChildId === "" || selectedWeekStart === "") {
-        return
+  if (selectedChildId === "" || selectedWeekStart === "") {
+    return;
+  }
+
+  const selectedChild = children.find((child) => {
+    return child.id === Number(selectedChildId);
+  });
+
+  const selectedWeek = selectedChild.weeks.find((week) => {
+    return week.weekStart === selectedWeekStart;
+  });
+
+  if (!selectedWeek) {
+    return;
+  }
+
+  if (payCheckbox.checked === false) {
+    const correctPassword = "05012021"
+    const userInput = prompt("Enter Password")
+
+    if (userInput !== correctPassword) {
+      payCheckbox.checked = true
+      alert("Permission Denied")
+      return
     }
+  }
 
-    const selectedChild = children.find((child) => {
-        return child.id === Number(selectedChildId)
-    })
+  selectedWeek.isPaid = payCheckbox.checked;
 
-    const selectedWeek = selectedChild.weeks.find((week) => {
-        return week.weekStart === selectedWeekStart
-    })
-
-    if (!selectedWeek) {
-        return
+  dayChecks.forEach((dayCheck) => {
+    if (payCheckbox.checked === true) {
+      dayCheck.disabled = true;
+    } else {
+      dayCheck.disabled = false;
     }
+  });
 
-    // IF USER IS TRYING TO UNCHECK THE PAID BOX, REQUIRE PASSWORD
-
-    if (payCheckbox.checked === false) {
-        const correctPassword = "05012021"
-        const userInput = prompt("Enter Password")
-
-        if (userInput !== correctPassword) {
-            payCheckbox.checked = true
-            alert("Permission Denied")
-            return
-        }
-    }
-
-    selectedWeek.isPaid = payCheckbox.checked
-
-      dayChecks.forEach((dayCheck) => {
-        if (payCheckbox.checked === true) {
-            dayCheck.disabled = true
-        } else {
-            dayCheck.disabled = false
-        }
-    })
-    
-    updateChoresCompleted()
-})
+  updateChoresCompleted();
+});
