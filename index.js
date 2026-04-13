@@ -177,16 +177,25 @@ payCheckbox.addEventListener("change", () => {
         return child.id === Number(selectedChildId)
     })
 
-    if (!selectedChildId) {
-        return
-    }
-
     const selectedWeek = selectedChild.weeks.find((week) => {
         return week.weekStart === selectedWeekStart
     })
 
     if (!selectedWeek) {
         return
+    }
+
+    // IF USER IS TRYING TO UNCHECK THE PAID BOX, REQUIRE PASSWORD
+
+    if (payCheckbox.checked === false) {
+        const correctPassword = "05012021"
+        const userInput = prompt("Enter Password")
+
+        if (userInput !== correctPassword) {
+            payCheckbox.checked = true
+            alert("Permission Denied")
+            return
+        }
     }
 
     selectedWeek.isPaid = payCheckbox.checked
@@ -198,18 +207,6 @@ payCheckbox.addEventListener("change", () => {
             dayCheck.disabled = false
         }
     })
-
-     if (payCheckbox.checked === false) {
-        const correctPassword = "05012021"
-        const userInput = prompt("Enter Password")
-
-    if (userInput === correctPassword) {
-        return
-    } else {
-        payCheckbox.checked = true
-        alert("Permission Denied")
-    }
-}
     
     updateChoresCompleted()
 })
