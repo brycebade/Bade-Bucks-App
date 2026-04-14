@@ -18,6 +18,14 @@ children.forEach((child) => {
   childOption.appendChild(childSelection);
 });
 
+const getWeek = (date) => {
+  const weekday = date.getDay()
+  const copyDate = new Date(date)
+  const diff = date.getDate() - weekday + (weekday === 0 ? -6 : 1)
+  copyDate.setDate(diff)
+  return copyDate
+}
+
 // CHANGE TEXT ON WEEK AND POPULATE DROP DOWN
 
 weekOption.addEventListener("change", () => {
