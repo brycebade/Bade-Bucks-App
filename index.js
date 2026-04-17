@@ -18,87 +18,119 @@ children.forEach((child) => {
   childOption.appendChild(childSelection);
 });
 
-const getWeek = (date) => {
-  const weekday = date.getDay()
-  const copyDate = new Date(date)
-  const diff = date.getDate() - weekday + (weekday === 0 ? -6 : 1)
-  copyDate.setDate(diff)
-  return copyDate
+const getWeekday = (date) => {
+    const weekday = date.getDay()
+    const copyDate = new Date(date)
+    let diff
+
+    if (weekday === 0) {
+        diff = date.getDate() - weekday - 6
+    } else {
+        diff = date.getDate() - weekday + 1
+    }
+
+    copyDate.setDate(diff)
+    return copyDate
 }
 
-// CHANGE TEXT ON WEEK AND POPULATE DROP DOWN
+const today = new Date()
+const currentWeek = getWeekday(today)
+
+weekOption.innerHTML = `<option value="">Select Week</option>`
+
+for (let i = -5; i <= 4; i++) {
+    const weekDate = new Date(currentWeek)
+    weekDate.setDate(currentWeek.getDate() + i * 7)
+
+    const option = document.createElement("option")
+
+    option.value = weekDate.toISOString().split("T")[0]
+    option.textContent = weekDate.toDateString()
+
+    weekOption.appendChild(option)
+}
+
+// CHANGE TEXT ON WEEK OF 
 
 weekOption.addEventListener("change", () => {
-  const selectedChildId = childOption.value;
-  const selectedWeekStart = weekOption.value;
+    const selectedChildId = childOption.value
+    const selectedWeekStart = weekOption.value
 
-  weekText.textContent = `Week Of: ${selectedWeekStart}`;
+    weekText.textContent = `Week Of: ${selectedWeekStart}`
 
-  if (selectedChildId === "" || selectedWeekStart === "") {
-    return;
-  }
+    if (selectedChildId === "" || selectedWeekStart === "") {
+        dayChecks.forEach((dayCheck) => {
+            dayCheck.checked = false
+            dayCheck.disabled = false
+        })
 
-  const selectedChild = children.find((child) => {
-    return child.id === Number(selectedChildId);
-  });
+        payCheckbox.checked = false
+        choresDisplay.textContent = "Chores Completed: 0"
+        payDisplay.textContent = "Pay Due: $0"
+        return
+    }
 
-  if (!selectedChild) {
-    return;
-  }
+    const selectedChild = children.find((child) => {
+        return child.id === Number(selectedChildId)
+    })
 
-  const selectedWeek = selectedChild.weeks.find((week) => {
-    return week.weekStart === selectedWeekStart;
-  });
+    if (!selectedChild) {
+        return
+    }
 
-  if (!selectedWeek) {
-    return;
-  }
+    const selectedWeek = selectedChild.weeks.find((week) => {
+        return week.weekStart === selectedWeekStart
+    })
 
-  dayChecks.forEach((dayCheck) => {
-    const day = dayCheck.id;
-    dayCheck.checked = selectedWeek[day];
-  });
+    if (!selectedWeek) {
+        dayChecks.forEach((dayCheck) => {
+            dayCheck.checked = false
+            dayCheck.disabled = false
+        })
 
-  payCheckbox.checked = selectedWeek.isPaid;
-  updateChoresCompleted();
-});
+        payCheckbox.checked = false
+        choresDisplay.textContent = "Chores Completed: 0"
+        payDisplay.textContent = "Pay Due: $0"
+        return
+    }
+
+    dayChecks.forEach((dayCheck) => {
+        const day = dayCheck.id
+        dayCheck.checked = selectedWeek[day]
+        dayCheck.disabled = selectedWeek.isPaid
+    })
+
+    payCheckbox.checked = selectedWeek.isPaid
+    updateChoresCompleted()
+})
 
 // FUNCTIONS OF CHILD DROP DOWN LIST
 
 childOption.addEventListener("change", () => {
-  const selectedChild = childOption.value;
+    const selectedChild = childOption.value
+    
+    const foundChild = children.find((child) => {
+        return child.id === Number(selectedChild)
+    })
 
-  const foundChild = children.find((child) => {
-    return child.id === Number(selectedChild);
-  });
+    if (!foundChild) {
+        childName.textContent = ""
+        weekText.textContent - "Week Of: "
+        return
+    }
 
-  weekOption.innerHTML = `<option value="">Select Week</option>`;
+    childName.textContent = foundChild.name
+    weekText.textContent = "Week Of: "
 
-  if (!foundChild) {
-    childName.textContent = "";
-    return;
-  }
+    dayChecks.forEach((dayCheck) => {
+        dayCheck.checked = false
+        dayCheck.disabled - false
+    })
 
-  foundChild.weeks.forEach((week) => {
-    const weekSelection = document.createElement("option");
-    weekSelection.textContent = week.weekStart;
-    weekSelection.value = week.weekStart;
-    weekOption.appendChild(weekSelection);
-  });
-
-  weekText.textContent = "Week Of: ";
-
-  childName.textContent = foundChild.name;
-
-  dayChecks.forEach((dayCheck) => {
-    dayCheck.checked = false;
-  });
-
-  payCheckbox.checked = false;
-
-  choresDisplay.textContent = `Chores Completed: 0`;
-  payDisplay.textContent = `Pay Due: $0`;
-});
+    payCheckbox.checked = false
+    choresDisplay.textContent = `Chores Completed: 0`
+    payDisplay.textContent = `Pay Due: $0`
+})
 
 // PAY DUE DISPLAY
 
