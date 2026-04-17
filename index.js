@@ -8,6 +8,7 @@ const childOption = document.getElementById("childOption");
 const childName = document.getElementById("childName");
 const weekOption = document.getElementById("weekOption");
 const weekText = document.getElementById("week");
+const PASSWORD = "05012021"
 
 // POPULATE CHILD DROP DOWN LISTS
 
@@ -18,19 +19,32 @@ children.forEach((child) => {
   childOption.appendChild(childSelection);
 });
 
+const resetUI = () => {
+  dayChecks.forEach((dayCheck) => {
+    dayCheck.checked = false
+    dayCheck.disabled = false
+  })
+
+  payCheckbox.checked = false
+  choresDisplay.textContent = `Chores Completed: 0`
+  payDisplay.textContent = `Pay Due: $0`
+}
+
+// get Weekdate function
+
 const getWeekday = (date) => {
-    const weekday = date.getDay()
-    const copyDate = new Date(date)
-    let diff
+  const weekday = date.getDay()
+  const copyDate = new Date(date)
+  let diff
 
-    if (weekday === 0) {
-        diff = date.getDate() - weekday - 6
-    } else {
-        diff = date.getDate() - weekday + 1
-    }
+  if (weekday === 0) {
+      diff = date.getDate() - weekday - 6
+  } else {
+      diff = date.getDate() - weekday + 1
+  }
 
-    copyDate.setDate(diff)
-    return copyDate
+  copyDate.setDate(diff)
+  return copyDate
 }
 
 const today = new Date()
@@ -39,109 +53,91 @@ const currentWeek = getWeekday(today)
 weekOption.innerHTML = `<option value="">Select Week</option>`
 
 for (let i = -5; i <= 4; i++) {
-    const weekDate = new Date(currentWeek)
-    weekDate.setDate(currentWeek.getDate() + i * 7)
+  const weekDate = new Date(currentWeek)
+  weekDate.setDate(currentWeek.getDate() + i * 7)
 
-    const option = document.createElement("option")
+  const option = document.createElement("option")
 
-    option.value = weekDate.toISOString().split("T")[0]
-    option.textContent = weekDate.toDateString()
+  option.value = weekDate.toISOString().split("T")[0]
+  option.textContent = weekDate.toDateString()
 
-    weekOption.appendChild(option)
+  weekOption.appendChild(option)
 }
 
 // CHANGE TEXT ON WEEK OF 
 
 weekOption.addEventListener("change", () => {
-    const selectedChildId = childOption.value
-    const selectedWeekStart = weekOption.value
+  const selectedChildId = childOption.value
+  const selectedWeekStart = weekOption.value
 
-    weekText.textContent = `Week Of: ${selectedWeekStart}`
+  const selectedWeekText = weekOption.options[weekOption.selectedIndex].text
+  weekText.textContent = `Week Of: ${selectedWeekText}`
 
-    if (selectedChildId === "" || selectedWeekStart === "") {
-        dayChecks.forEach((dayCheck) => {
-            dayCheck.checked = false
-            dayCheck.disabled = false
-        })
+  if (selectedChildId === "" || selectedWeekStart === "") {
+      resetUI()
+      return
+  }
 
-        payCheckbox.checked = false
-        choresDisplay.textContent = "Chores Completed: 0"
-        payDisplay.textContent = "Pay Due: $0"
-        return
-    }
+  const selectedChild = children.find((child) => {
+      return child.id === Number(selectedChildId)
+  })
 
-    const selectedChild = children.find((child) => {
-        return child.id === Number(selectedChildId)
-    })
+  if (!selectedChild) {
+      return
+  }
 
-    if (!selectedChild) {
-        return
-    }
+  const selectedWeek = selectedChild.weeks.find((week) => {
+      return week.weekStart === selectedWeekStart
+  })
 
-    const selectedWeek = selectedChild.weeks.find((week) => {
-        return week.weekStart === selectedWeekStart
-    })
+  if (!selectedWeek) {
+      resetUI()
+      return
+  }
 
-    if (!selectedWeek) {
-        dayChecks.forEach((dayCheck) => {
-            dayCheck.checked = false
-            dayCheck.disabled = false
-        })
+  dayChecks.forEach((dayCheck) => {
+      const day = dayCheck.id
+      dayCheck.checked = selectedWeek[day]
+      dayCheck.disabled = selectedWeek.isPaid
+  })
 
-        payCheckbox.checked = false
-        choresDisplay.textContent = "Chores Completed: 0"
-        payDisplay.textContent = "Pay Due: $0"
-        return
-    }
-
-    dayChecks.forEach((dayCheck) => {
-        const day = dayCheck.id
-        dayCheck.checked = selectedWeek[day]
-        dayCheck.disabled = selectedWeek.isPaid
-    })
-
-    payCheckbox.checked = selectedWeek.isPaid
-    updateChoresCompleted()
+  payCheckbox.checked = selectedWeek.isPaid
+  updateChoresCompleted()
 })
 
 // FUNCTIONS OF CHILD DROP DOWN LIST
 
 childOption.addEventListener("change", () => {
-    const selectedChild = childOption.value
-    
-    const foundChild = children.find((child) => {
-        return child.id === Number(selectedChild)
-    })
+  const selectedChild = childOption.value
+  
+  const foundChild = children.find((child) => {
+      return child.id === Number(selectedChild)
+  })
 
-    if (!foundChild) {
-        childName.textContent = ""
-        weekText.textContent - "Week Of: "
-        return
-    }
+  weekOption.value = ""
 
-    childName.textContent = foundChild.name
-    weekText.textContent = "Week Of: "
+  if (!foundChild) {
+      childName.textContent = ""
+      weekText.textContent = "Week Of: "
+      return
+  }
 
-    dayChecks.forEach((dayCheck) => {
-        dayCheck.checked = false
-        dayCheck.disabled - false
-    })
+  childName.textContent = foundChild.name
+  weekText.textContent = "Week Of: "
 
-    payCheckbox.checked = false
-    choresDisplay.textContent = `Chores Completed: 0`
-    payDisplay.textContent = `Pay Due: $0`
+  resetUI()
 })
 
 // PAY DUE DISPLAY
 
 const updatePayDisplay = (count, selectedChild) => {
-  if (payCheckbox.checked) {
-    payDisplay.textContent = `Pay Due: $0`;
-    return;
-  }
+if (payCheckbox.checked) {
+  payDisplay.textContent = `Pay Due: $0`;
+  return;
+}
 
-  const pay = selectedChild.payRates[count];
-  payDisplay.textContent = `Pay Due: $${pay}`;
+const pay = selectedChild.payRates[count];
+payDisplay.textContent = `Pay Due: $${pay}`;
 };
 
 // COUNT CHORES & CHECKED BOXES
@@ -162,7 +158,8 @@ const updateChoresCompleted = () => {
   });
 
   if (!selectedChild) {
-    payDisplay.textContent = `Pay Due: `;
+    choresDisplay.textContent = "Chores Completed: 0"
+    payDisplay.textContent = `Pay Due: $0`;
     return;
   }
 
@@ -217,6 +214,10 @@ payCheckbox.addEventListener("change", () => {
     return child.id === Number(selectedChildId);
   });
 
+  if (!selectedChild) {
+    return
+  }
+
   const selectedWeek = selectedChild.weeks.find((week) => {
     return week.weekStart === selectedWeekStart;
   });
@@ -226,10 +227,9 @@ payCheckbox.addEventListener("change", () => {
   }
 
   if (payCheckbox.checked === false) {
-    const correctPassword = "05012021"
     const userInput = prompt("Enter Password")
 
-    if (userInput !== correctPassword) {
+    if (userInput !== PASSWORD) {
       payCheckbox.checked = true
       alert("Permission Denied")
       return
