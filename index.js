@@ -1,23 +1,23 @@
 import { children } from "./data.js"
 
-const dayChecks = document.querySelectorAll(".dayCheckbox");
-const choresDisplay = document.getElementById("choresCompleted");
-const payDisplay = document.getElementById("payDue");
-const payCheckbox = document.getElementById("paidCheckbox");
-const childOption = document.getElementById("childOption");
-const childName = document.getElementById("childName");
-const weekOption = document.getElementById("weekOption");
-const weekText = document.getElementById("week");
+const dayChecks = document.querySelectorAll(".dayCheckbox")
+const choresDisplay = document.getElementById("choresCompleted")
+const payDisplay = document.getElementById("payDue")
+const payCheckbox = document.getElementById("paidCheckbox")
+const childOption = document.getElementById("childOption")
+const childName = document.getElementById("childName")
+const weekOption = document.getElementById("weekOption")
+const weekText = document.getElementById("week")
 const PASSWORD = "05012021"
 
-// POPULATE CHILD DROP DOWN LISTS
+// POPULATE DROP DOWN LISTS
 
 children.forEach((child) => {
-  const childSelection = document.createElement("option");
-  childSelection.textContent = child.name;
-  childSelection.value = child.id;
-  childOption.appendChild(childSelection);
-});
+    const childSelection = document.createElement("option")
+    childSelection.textContent = child.name
+    childSelection.value = child.id
+    childOption.appendChild(childSelection)
+})
 
 const resetUI = () => {
   dayChecks.forEach((dayCheck) => {
@@ -86,13 +86,24 @@ weekOption.addEventListener("change", () => {
       return
   }
 
-  const selectedWeek = selectedChild.weeks.find((week) => {
+  let selectedWeek = selectedChild.weeks.find((week) => {
       return week.weekStart === selectedWeekStart
   })
 
   if (!selectedWeek) {
-      resetUI()
-      return
+      selectedWeek = {
+        weekStart: selectedWeekStart,
+        monday: false,
+        tuesday: false,
+        wednesday: false,
+        thursday: false,
+        friday: false,
+        saturday: false,
+        sunday: false,
+        isPaid: false
+      }
+
+      selectedChild.weeks.push(selectedWeek)
   }
 
   dayChecks.forEach((dayCheck) => {
@@ -136,7 +147,7 @@ if (payCheckbox.checked) {
   return;
 }
 
-const pay = selectedChild.payRates[count];
+const pay = selectedChild.payRates[count] ?? 0
 payDisplay.textContent = `Pay Due: $${pay}`;
 };
 
@@ -186,12 +197,24 @@ dayChecks.forEach((dayCheck) => {
       return;
     }
 
-    const selectedWeek = selectedChild.weeks.find((week) => {
+    let selectedWeek = selectedChild.weeks.find((week) => {
       return week.weekStart === selectedWeekStart;
     });
 
     if (!selectedWeek) {
-      return;
+        selectedWeek = {
+            weekStart: selectedWeekStart,
+            monday: false,
+            tuesday: false,
+            wednesday: false,
+            thursday: false,
+            friday: false,
+            saturday: false,
+            sunday: false,
+            isPaid: false
+        }
+
+        selectedChild.weeks.push(selectedWeek)
     }
 
     selectedWeek[day] = isChecked;
@@ -244,6 +267,10 @@ payCheckbox.addEventListener("change", () => {
     } else {
       dayCheck.disabled = false;
     }
+  });
+
+  updateChoresCompleted();
+});
   });
 
   updateChoresCompleted();
