@@ -71,26 +71,6 @@ for (let i = -5; i <= 4; i++) {
   weekOption.appendChild(option)
 }
 
-const savedChildId = localStorage.getItem("selectedChildId")
-const savedWeekStart = localStorage.getItem("selectedWeekStart")
-
-if (savedChildId) {
-    childOption.value = savedChildId
-
-    const selectedChild = children.find((child) => {
-        return child.id === Number(savedChildId)
-    })
-        
-    if (selectedChild) {
-        childName.textContent = selectedChild.name
-    }
-}
-
-if (savedChildId && savedWeekStart) {
-    weekOption.value = savedWeekStart
-    weekOption.dispatchEvent(new Event("change"))
-}
-
 // CHANGE TEXT ON WEEK OF 
 
 weekOption.addEventListener("change", () => {
@@ -308,6 +288,26 @@ payCheckbox.addEventListener("change", () => {
   updateChoresCompleted()
   saveToStorage()
 });
+
+const savedChildId = localStorage.getItem("selectedChildId")
+const savedWeekStart = localStorage.getItem("selectedWeekStart")
+
+if (savedChildId) {
+    childOption.value = savedChildId
+
+    const selectedChild = children.find((child) => {
+        return child.id === Number(savedChildId)
+    })
+        
+    if (selectedChild) {
+        childName.textContent = selectedChild.name
+    }
+}
+
+if (savedChildId && savedWeekStart) {
+    weekOption.value = savedWeekStart
+    weekOption.dispatchEvent(new Event("change"))
+}
 
 resetButton.addEventListener("click", () => {
     const confirmReset = confirm("Are you sure you want to reset all data?")
