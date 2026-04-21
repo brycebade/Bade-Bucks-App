@@ -1,4 +1,6 @@
-import { children } from "./data.js"
+import { children as starterChildren } from "./data.js"
+
+let children = JSON.parse(localStorage.getItem("children")) || starterChildren
 
 const dayChecks = document.querySelectorAll(".dayCheckbox")
 const choresDisplay = document.getElementById("choresCompleted")
@@ -9,6 +11,10 @@ const childName = document.getElementById("childName")
 const weekOption = document.getElementById("weekOption")
 const weekText = document.getElementById("week")
 const PASSWORD = "05012021"
+
+function saveToStorage() {
+    localStorage.setItem("children", JSON.stringify(children))
+}
 
 // POPULATE DROP DOWN LISTS
 
@@ -70,13 +76,14 @@ weekOption.addEventListener("change", () => {
   const selectedChildId = childOption.value
   const selectedWeekStart = weekOption.value
 
-  const selectedWeekText = weekOption.options[weekOption.selectedIndex].text
-  weekText.textContent = `Week Of: ${selectedWeekText}`
-
   if (selectedChildId === "" || selectedWeekStart === "") {
+      weekText.textContent = "Week Of: "
       resetUI()
       return
   }
+
+  const selectedWeekText = weekOption.options[weekOption.selectedIndex].text
+  weekText.textContent = `Week Of: ${selectedWeekText}`
 
   const selectedChild = children.find((child) => {
       return child.id === Number(selectedChildId)
@@ -104,6 +111,7 @@ weekOption.addEventListener("change", () => {
       }
 
       selectedChild.weeks.push(selectedWeek)
+      saveToStorage()
   }
 
   dayChecks.forEach((dayCheck) => {
@@ -130,6 +138,7 @@ childOption.addEventListener("change", () => {
   if (!foundChild) {
       childName.textContent = ""
       weekText.textContent = "Week Of: "
+      resetUI()
       return
   }
 
@@ -215,11 +224,13 @@ dayChecks.forEach((dayCheck) => {
         }
 
         selectedChild.weeks.push(selectedWeek)
+        saveToStorage()
     }
 
     selectedWeek[day] = isChecked;
 
-    updateChoresCompleted();
+    updateChoresCompleted()
+    saveToStorage()
   });
 });
 
@@ -269,9 +280,6 @@ payCheckbox.addEventListener("change", () => {
     }
   });
 
-  updateChoresCompleted();
-});
-  });
-
-  updateChoresCompleted();
+  updateChoresCompleted()
+  saveToStorage()
 });
