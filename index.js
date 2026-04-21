@@ -77,15 +77,17 @@ const savedWeekStart = localStorage.getItem("selectedWeekStart")
 if (savedChildId) {
     childOption.value = savedChildId
 
-    const selectedChild = children.find(child => child.id === Number(savedChildId))
+    const selectedChild = children.find((child) => {
+        return child.id === Number(savedChildId)
+    })
+        
     if (selectedChild) {
         childName.textContent = selectedChild.name
     }
 }
 
-if (savedWeekStart) {
+if (savedChildId && savedWeekStart) {
     weekOption.value = savedWeekStart
-
     weekOption.dispatchEvent(new Event("change"))
 }
 
@@ -95,14 +97,14 @@ weekOption.addEventListener("change", () => {
   const selectedChildId = childOption.value
   const selectedWeekStart = weekOption.value
 
-  localStorage.setItem("selectedChildId", selectedChildId)
-  localStorage.setItem("selectedWeekStart", selectedWeekStart)
-
   if (selectedChildId === "" || selectedWeekStart === "") {
       weekText.textContent = "Week Of: "
       resetUI()
       return
   }
+
+  localStorage.setItem("selectedChildId", selectedChildId)
+  localStorage.setItem("selectedWeekStart", selectedWeekStart)
 
   const selectedWeekText = weekOption.options[weekOption.selectedIndex].text
   weekText.textContent = `Week Of: ${selectedWeekText}`
@@ -149,27 +151,25 @@ weekOption.addEventListener("change", () => {
 // FUNCTIONS OF CHILD DROP DOWN LIST
 
 childOption.addEventListener("change", () => {
-  const selectedChild = childOption.value
+  const selectedChildId = childOption.value
 
   localStorage.setItem("selectedChildId", selectedChildId)
-  localStorage.setItem("selectedWeekStart", selectedWeekStart)
+  localStorage.removeItem("selectedWeekStart")
   
   const foundChild = children.find((child) => {
-      return child.id === Number(selectedChild)
+      return child.id === Number(selectedChildId)
   })
 
   weekOption.value = ""
+  weekText.textContent = "Week Of: "
 
   if (!foundChild) {
       childName.textContent = ""
-      weekText.textContent = "Week Of: "
       resetUI()
       return
   }
 
   childName.textContent = foundChild.name
-  weekText.textContent = "Week Of: "
-
   resetUI()
 })
 
