@@ -71,11 +71,32 @@ for (let i = -5; i <= 4; i++) {
   weekOption.appendChild(option)
 }
 
+const savedChildId = localStorage.getItem("selectedChildId")
+const savedWeekStart = localStorage.getItem("selectedWeekStart")
+
+if (savedChildId) {
+    childOption.value = savedChildId
+
+    const selectedChild = children.find(child => child.id === Number(savedChildId))
+    if (selectedChild) {
+        childName.textContent = selectedChild.name
+    }
+}
+
+if (savedWeekStart) {
+    weekOption.value = savedWeekStart
+
+    weekOption.dispatchEvent(new Event("change"))
+}
+
 // CHANGE TEXT ON WEEK OF 
 
 weekOption.addEventListener("change", () => {
   const selectedChildId = childOption.value
   const selectedWeekStart = weekOption.value
+
+  localStorage.setItem("selectedChildId", selectedChildId)
+  localStorage.setItem("selectedWeekStart", selectedWeekStart)
 
   if (selectedChildId === "" || selectedWeekStart === "") {
       weekText.textContent = "Week Of: "
@@ -129,6 +150,9 @@ weekOption.addEventListener("change", () => {
 
 childOption.addEventListener("change", () => {
   const selectedChild = childOption.value
+
+  localStorage.setItem("selectedChildId", selectedChildId)
+  localStorage.setItem("selectedWeekStart", selectedWeekStart)
   
   const foundChild = children.find((child) => {
       return child.id === Number(selectedChild)
