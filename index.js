@@ -311,9 +311,10 @@ if (savedChildId && savedWeekStart) {
 
 resetButton.addEventListener("click", () => {
     const confirmReset = confirm("Are you sure you want to reset all data?")
-
     if (!confirmReset) return
     
     localStorage.removeItem("children")
+    localStorage.removeItem("selectedChildId")
+    localStorage.removeItem("selectedWeekStart")
     location.reload()
 })
