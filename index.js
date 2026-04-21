@@ -10,6 +10,7 @@ const childOption = document.getElementById("childOption")
 const childName = document.getElementById("childName")
 const weekOption = document.getElementById("weekOption")
 const weekText = document.getElementById("week")
+const resetButton = document.getElementById("resetStorage")
 const PASSWORD = "05012021"
 
 function saveToStorage() {
@@ -283,3 +284,12 @@ payCheckbox.addEventListener("change", () => {
   updateChoresCompleted()
   saveToStorage()
 });
+
+resetButton.addEventListener("click", () => {
+    const confirmReset = confirm("Are you sure you want to reset all data?")
+
+    if (!confirmReset) return
+    
+    localStorage.removeItem("children")
+    location.reload()
+})
