@@ -11,6 +11,8 @@ const childName = document.getElementById("childName")
 const weekOption = document.getElementById("weekOption")
 const weekText = document.getElementById("week")
 const resetButton = document.getElementById("resetStorage")
+const extraChore = document.getElementById("extraChoreInput)
+const extraPay = document.getElementById("extraChoreAmount")
 const PASSWORD = "05012021"
 
 function saveToStorage() {
