@@ -88,17 +88,24 @@
 
           <div class="divider"></div>
 
-          <div class="">
-            <label class="">
-              <span class="label-text">Additional Chore</span>
-              <input type="text" id="extraChoreInput" class="">
-              <button>Enter</button>
-            </label>
-            <label class="">
-              <span class="label-text">Pay Amount</span>
-              <input type="text" id="extraChoreAmount" class="">
-              <button>Enter</button>
-            </label>
+          <div class="card bg-base-100 shadow-md border border-base-300">
+            <div class="card-body gap-4">
+              <h2 class="card-title text-lg">Extra Chores</h2>
+              <label class="form-control w-full">
+                <span class="label-text mb-1">Additional Chore</span>
+                <div class="flex gap-2">
+                  <input type="text" id="extraChoreInput" class="input input-bordered w-full" placeholder="Example: Clean Bedroom">
+                  <button class="btn btn-primary">Enter</button>
+                </div>
+              </label>
+              <label class="form-control w-full">
+                <span class="label-text mb-1">Pay Amount</span>
+                <div class="flex gap-2">
+                  <input type="number" id="extraChoreAmount" class="input input-borderd w-full" placeholder="Example: 5">
+                  <button class="btn btn-success">Enter</button>
+                </div>
+              </label>
+            </div>
           </div>
   
           <div class="divider"></div>
