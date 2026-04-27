@@ -7,104 +7,201 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css" />
   </head>
-  <body class="min-h-screen">
 
-    <div class="navbar bg-base-300">
-      <div class="flex-1">
-        <a class="btn btn-ghost text-xl">Bade Bucks</a>
+<body class="min-h-screen bg-base-200">
+    <!-- TOP NAVBAR -->
+    <div class="navbar bg-base-300 shadow-md">
+      <div class="dropdown">
+        <button tabindex="0" class="btn btn-ghost btn-square">
+          ☰
+        </button>
+
+        <div
+          tabindex="0"
+          class="dropdown-content z-10 menu p-4 shadow bg-base-100 rounded-box w-80"
+        >
+          <label class="form-control w-full mb-4">
+            <span class="label-text">Select Child</span>
+            <select id="childOption" class="select select-bordered w-full">
+              <option value="">Select Child</option>
+            </select>
+          </label>
+
+          <label class="form-control w-full mb-4">
+            <span class="label-text">Select Week</span>
+            <select id="weekOption" class="select select-bordered w-full">
+              <option value="">Select Week</option>
+            </select>
+          </label>
+
+          <div class="divider my-2"></div>
+
+          <button class="btn btn-outline w-full mb-2">Add Child</button>
+          <button class="btn btn-outline w-full mb-2">Settings</button>
+          <button class="btn btn-outline w-full mb-2" id="resetStorage">
+            Reset Data
+          </button>
+
+          <label class="flex items-center justify-between mt-2">
+            <span class="label-text">Dark Mode</span>
+            <input
+              id="themeToggle"
+              type="checkbox"
+              class="toggle toggle-primary"
+            />
+          </label>
+        </div>
       </div>
+
+      <div class="flex-1 justify-center">
+        <h1 class="text-xl font-bold">Bade Bucks</h1>
+      </div>
+
+      <div class="flex-none"></div>
     </div>
-  
-    <div class="container mx-auto p-4 max-w-2xl">
-      <div class="card bg-base-100 shadow-xl">
-        <div class="card-body">
-          
-          <h2 class="card-title justify-center text-2xl">Select Child</h2>
-          
-          <select id="childOption" class="select select-bordered select-lg w-full max-w-xs mb-4">
-            <option value="">Select Child</option>
-          </select>
-  
-          <div class="mb-4">
-            <label class="label">
-              <span class="label-text">Child Name</span>
-            </label>
-            <div id="childName" class="text-lg font-semibold"></div>
-          </div>
-  
-          <h2 class="card-title justify-center text-2xl mt-6">Select Week</h2>
-          
-          <select id="weekOption" class="select select-bordered select-lg w-full max-w-xs mb-4">
-            <option value="">Select Week</option>
-          </select>
-  
-          <div class="mb-4">
-            <span id="week" class="text-lg">Week Of: </span>
-          </div>
-  
-          <div class="divider"></div>
-  
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <div id="choresCompleted" class="alert alert-success">
-              <span>Chores Completed: 0</span>
-            </div>
-            <div id="payDue" class="alert alert-primary">
-              <span>Pay Due: $0</span>
-            </div>
-          </div>
-  
-          <div class="divider">Daily Chores</div>
-  
-          <div class="space-y-2">
-            <label class="label cursor-pointer">
-              <span class="label-text">Monday</span> 
-              <input type="checkbox" id="monday" class="checkbox checkbox-primary dayCheckbox" />
-            </label>
-            <label class="label cursor-pointer">
-              <span class="label-text">Tuesday</span> 
-              <input type="checkbox" id="tuesday" class="checkbox checkbox-primary dayCheckbox" />
-            </label>
-            <label class="label cursor-pointer">
-              <span class="label-text">Wednesday</span> 
-              <input type="checkbox" id="wednesday" class="checkbox checkbox-primary dayCheckbox" />
-            </label>
-            <label class="label cursor-pointer">
-              <span class="label-text">Thursday</span> 
-              <input type="checkbox" id="thursday" class="checkbox checkbox-primary dayCheckbox" />
-            </label>
-            <label class="label cursor-pointer">
-              <span class="label-text">Friday</span> 
-              <input type="checkbox" id="friday" class="checkbox checkbox-primary dayCheckbox" />
-            </label>
-            <label class="label cursor-pointer">
-              <span class="label-text">Saturday</span> 
-              <input type="checkbox" id="saturday" class="checkbox checkbox-primary dayCheckbox" />
-            </label>
-            <label class="label cursor-pointer">
-              <span class="label-text">Sunday</span> 
-              <input type="checkbox" id="sunday" class="checkbox checkbox-primary dayCheckbox" />
-            </label>
-          </div>
 
-          <div class="divider"></div>
+    <!-- DASHBOARD WRAPPER -->
+    <main class="p-3 md:p-6 max-w-7xl mx-auto">
+      <!-- ROW 1: CHILD & WEEK -->
+      <section class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div class="card bg-base-100 shadow-md">
+          <div class="card-body p-4">
+            <h2 id="childName" class="card-title">No child selected</h2>
+          </div>
+        </div>
+        <div class="card bg-base-100 shadow-md">
+          <div class="card-body p-4">
+            <h2 id="week" class="card-title">Week Of:</h2>
+          </div>
+        </div>
+      </section>
 
-          <div class="card bg-base-100 shadow-md border border-base-300">
+      <!-- ROW 2: STATS -->
+      <section class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div id="choresCompleted" class="alert alert-success py-3 px-4 shadow-md">
+          <span>Chores Completed: 0</span>
+        </div>
+        <div id="payDue" class="alert alert-primary py-3 px-4 shadow-md">
+          <span>Pay Due: $0</span>
+        </div>
+      </section>
+
+      <!-- MAIN DASHBOARD GRID -->
+      <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- LEFT / DAILY CHORES -->
+        <div class="card bg-base-100 shadow-xl">
+          <div class="card-body">
+            <h2 class="card-title text-xl md:text-2xl">Daily Chores</h2>
+
+            <div class="divider"></div>
+
+            <div class="space-y-3">
+              <label class="label cursor-pointer bg-base-200 rounded-box px-4 hover:bg-base-300 transition">
+                <span class="label-text text-lg">Monday</span>
+                <input
+                  type="checkbox"
+                  id="monday"
+                  class="checkbox checkbox-primary checkbox-lg dayCheckbox"
+                />
+              </label>
+
+              <label class="label cursor-pointer bg-base-200 rounded-box px-4 hover:bg-base-300 transition">
+                <span class="label-text text-lg">Tuesday</span>
+                <input
+                  type="checkbox"
+                  id="tuesday"
+                  class="checkbox checkbox-primary checkbox-lg dayCheckbox"
+                />
+              </label>
+
+              <label class="label cursor-pointer bg-base-200 rounded-box px-4 hover:bg-base-300 transition">
+                <span class="label-text text-lg">Wednesday</span>
+                <input
+                  type="checkbox"
+                  id="wednesday"
+                  class="checkbox checkbox-primary checkbox-lg dayCheckbox"
+                />
+              </label>
+
+              <label class="label cursor-pointer bg-base-200 rounded-box px-4 hover:bg-base-300 transition">
+                <span class="label-text text-lg">Thursday</span>
+                <input
+                  type="checkbox"
+                  id="thursday"
+                  class="checkbox checkbox-primary checkbox-lg dayCheckbox"
+                />
+              </label>
+
+              <label class="label cursor-pointer bg-base-200 rounded-box px-4 hover:bg-base-300 transition">
+                <span class="label-text text-lg">Friday</span>
+                <input
+                  type="checkbox"
+                  id="friday"
+                  class="checkbox checkbox-primary checkbox-lg dayCheckbox"
+                />
+              </label>
+
+              <label class="label cursor-pointer bg-base-200 rounded-box px-4 hover:bg-base-300 transition">
+                <span class="label-text text-lg">Saturday</span>
+                <input
+                  type="checkbox"
+                  id="saturday"
+                  class="checkbox checkbox-primary checkbox-lg dayCheckbox"
+                />
+              </label>
+
+              <label class="label cursor-pointer bg-base-200 rounded-box px-4 hover:bg-base-300 transition">
+                <span class="label-text text-lg">Sunday</span>
+                <input
+                  type="checkbox"
+                  id="sunday"
+                  class="checkbox checkbox-primary checkbox-lg dayCheckbox"
+                />
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT / SIDE AREA -->
+        <aside class="space-y-6">
+          <div class="card bg-base-100 shadow-xl border border-base-300">
             <div class="card-body gap-4">
-              <h2 class="card-title text-lg">Extra Chores</h2>
+              <h2 class="card-title text-xl md:text-2xl">Extra Chores</h2>
               <label class="form-control w-full">
                 <span class="label-text mb-1">Additional Chore</span>
-                <div class="flex gap-2">
-                  <input type="text" id="extraChoreInput" class="input input-bordered w-full" placeholder="Example: Clean Bedroom">
+                <div class="flex flex-col sm:flex-row gap-2">
+                  <input
+                    type="text"
+                    id="extraChoreInput"
+                    class="input input-bordered w-full"
+                    placeholder="Example: Clean bedroom"
+                  />
                   <button class="btn btn-primary">Enter</button>
                 </div>
               </label>
+
               <label class="form-control w-full">
                 <span class="label-text mb-1">Pay Amount</span>
-                <div class="flex gap-2">
-                  <input type="number" id="extraChoreAmount" class="input input-borderd w-full" placeholder="Example: 5">
+                <div class="flex flex-col sm:flex-row gap-2">
+                  <input
+                    type="number"
+                    id="extraChoreAmount"
+                    class="input input-bordered w-full"
+                    placeholder="Example: 5"
+                  />
                   <button class="btn btn-success">Enter</button>
                 </div>
               </label>
+            </div>
+          </div>
+
+          <div class="card bg-base-100 shadow-xl border border-base-300">
+            <div class="card-body">
+              <h2 class="card-title text-xl md:text-2xl">Extra Chore List</h2>
+
+              <div id="extraChoreList" class="min-h-40 bg-base-200 rounded-box p-4">
+                <p class="opacity-60">No extra chores added yet.</p>
+              </div>
             </div>
           </div>
   
@@ -116,11 +213,10 @@
               <input type="checkbox" id="paidCheckbox" class="checkbox checkbox-success" />
             </label>
           </div>
-  
-        </div>
-      </div>
-    </div>
-    <button id="resetStorage">Reset Data</button>
+        </aside>
+
+      </section>
+    </main>
 
     <script type="module" src="index.js"></script>
   </body>
