@@ -13,11 +13,48 @@ const weekText = document.getElementById("week")
 const resetButton = document.getElementById("resetStorage")
 const extraChore = document.getElementById("extraChoreInput)
 const extraPay = document.getElementById("extraChoreAmount")
+const extraChoreList = document.getElementById("extraChoreList")
+const choreList = document.getElementById("choreList")
+const choreBtn = document.getElementById("extraChoreBtn")
 const PASSWORD = "05012021"
 
 function saveToStorage() {
     localStorage.setItem("children", JSON.stringify(children))
 }
+
+choreBtn.addEventListener("click", () => {
+  const chore = extraChore.value.trim()
+
+  if (chore === "") return
+
+  const formattedChore = chore.charAt(0).toUpperCase() + chore.slice(1)
+
+  const li = document.createElement("li")
+
+  const checkbox = document.createElement("input")
+  checkbox.type = "checkbox"
+
+  const textSpan = document.createElement("span")
+  textSpan.textContent = formattedChore
+  textSpan.style.margin = "0 10px"
+
+  const deleteBtn = document.createElement("button")
+  deleteBtn.textContent = "❌"
+  deleteBtn.style.marginLeft = "10px"
+  
+  deleteBtn.addEventListener("click", () => {
+    li.remove()
+  })
+
+
+  li.appendChild(checkbox)
+  li.appendChild(textSpan)
+  li.appendChild(deleteBtn)
+
+  choreList.appendChild(li)
+
+  extraChore.value = ""
+})
 
 // POPULATE DROP DOWN LISTS
 
