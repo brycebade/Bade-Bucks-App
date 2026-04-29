@@ -1,21 +1,24 @@
 import { children as starterChildren } from "./data.js"
 
+import { 
+dayChecks,
+choresDisplay,
+payDisplay,
+payCheckbox,
+childOption,
+childName,
+weekOption,
+weekText,
+resetButton,
+extraChore,
+extraPay,
+choreList,
+choreBtn,
+noExtraChores 
+} from "./dom.js"
+
 let children = JSON.parse(localStorage.getItem("children")) || starterChildren
 
-const dayChecks = document.querySelectorAll(".dayCheckbox")
-const choresDisplay = document.getElementById("choresCompleted")
-const payDisplay = document.getElementById("payDue")
-const payCheckbox = document.getElementById("paidCheckbox")
-const childOption = document.getElementById("childOption")
-const childName = document.getElementById("childName")
-const weekOption = document.getElementById("weekOption")
-const weekText = document.getElementById("week")
-const resetButton = document.getElementById("resetStorage")
-const extraChore = document.getElementById("extraChoreInput")
-const extraPay = document.getElementById("extraChoreAmount")
-const choreList = document.getElementById("choreList")
-const choreBtn = document.getElementById("extraChoreBtn")
-const noExtraChores = document.getElementById("noExtraChores")
 const PASSWORD = "05012021"
 
 let basePay = 0
