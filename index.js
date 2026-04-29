@@ -15,7 +15,6 @@ const extraChore = document.getElementById("extraChoreInput")
 const extraPay = document.getElementById("extraChoreAmount")
 const choreList = document.getElementById("choreList")
 const choreBtn = document.getElementById("extraChoreBtn")
-const newChore = document.getElementById("newChoreList")
 const noExtraChores = document.getElementById("noExtraChores")
 
 const PASSWORD = "05012021"
@@ -50,13 +49,13 @@ choreBtn.addEventListener("click", () => {
   deleteBtn.classList.add("ml-6")
 
   checkbox.addEventListener("change", () => {
-  if (checkbox.checked) {
-    const currentPay = Number(
-      payDisplay.textContent.replace("Pay Due: $", "")
-    )
-
-    payDisplay.textContent = `Pay Due: $${currentPay + extraPayAmount}`
-  }
+    const currentPay = Number(payDisplay.textContent.replace("Pay Due: $", ""))
+  
+    if (checkbox.checked) {
+      payDisplay.textContent = `Pay Due: $${currentPay + extraPayAmount}`
+    } else {
+      payDisplay.textContent = `Pay Due: $${currentPay - extraPayAmount}`
+    }
 })
 
   deleteBtn.addEventListener("click", () => {
