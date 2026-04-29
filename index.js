@@ -16,6 +16,7 @@ const extraPay = document.getElementById("extraChoreAmount")
 const choreList = document.getElementById("choreList")
 const choreBtn = document.getElementById("extraChoreBtn")
 const newChore = document.getElementById("newChoreList")
+const noExtraChores = document.getElementById("noExtraChores")
 
 const PASSWORD = "05012021"
 
@@ -25,42 +26,52 @@ function saveToStorage() {
 
 choreBtn.addEventListener("click", () => {
   const chore = extraChore.value.trim()
+  const extraPayAmount = Number(extraPay.value)
 
-  if (chore === "") return
+  if (chore === "" || extraPay.value === "") return
 
   const formattedChore = chore.charAt(0).toUpperCase() + chore.slice(1)
 
+  noExtraChores.style.display = "none"
+
   const li = document.createElement("li")
+  li.classList.add("flex", "items-center", "gap-3")
 
   const checkbox = document.createElement("input")
   checkbox.type = "checkbox"
+  checkbox.classList.add("checkbox", "checkbox-primary", "checkbox-lg", "extraChoreCheckbox")
 
   const textSpan = document.createElement("span")
   textSpan.textContent = formattedChore
-  textSpan.style.margin = "0 10px"
+  //textSpan.style.margin = "0 10px"
 
   const deleteBtn = document.createElement("button")
   deleteBtn.textContent = "❌"
+  deleteBtn.classList.add("ml-6")
+
+  checkbox.addEventListener("change", () => {
+  if (checkbox.checked) {
+    const currentPay = Number(
+      payDisplay.textContent.replace("Pay Due: $", "")
+    )
+
+    payDisplay.textContent = `Pay Due: $${currentPay + extraPayAmount}`
+  }
+})
 
   deleteBtn.addEventListener("click", () => {
-    const isDone = textSpan.style.textDecoration === "line-through"
-
-    if (isDone) {
-      textSpan.style.textDecoration = "none"
-      textSpan.style.opacity = "1"
-    } else {
-      textSpan.style.textDecoration = "line-through"
-      textSpan.style.opacity = "0.6"
-    }
+    textSpan.classList.toggle("line-through")
+    textSpan.classList.toggle("opacity-60")
   })
 
   li.appendChild(checkbox)
   li.appendChild(textSpan)
   li.appendChild(deleteBtn)
 
-  newChore.appendChild(li)
+  choreList.appendChild(li)
 
   extraChore.value = ""
+  extraPay.value = ""
 })
 
 // POPULATE DROP DOWN LISTS
