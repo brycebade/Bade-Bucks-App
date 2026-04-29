@@ -16,8 +16,10 @@ const extraPay = document.getElementById("extraChoreAmount")
 const choreList = document.getElementById("choreList")
 const choreBtn = document.getElementById("extraChoreBtn")
 const noExtraChores = document.getElementById("noExtraChores")
-
 const PASSWORD = "05012021"
+
+let basePay = 0
+let extraChorePay = 0
 
 function saveToStorage() {
     localStorage.setItem("children", JSON.stringify(children))
@@ -49,16 +51,22 @@ choreBtn.addEventListener("click", () => {
   deleteBtn.classList.add("ml-6")
 
   checkbox.addEventListener("change", () => {
-    const currentPay = Number(payDisplay.textContent.replace("Pay Due: $", ""))
-  
     if (checkbox.checked) {
-      payDisplay.textContent = `Pay Due: $${currentPay + extraPayAmount}`
+      extraChorePay += extraPayAmount
     } else {
-      payDisplay.textContent = `Pay Due: $${currentPay - extraPayAmount}`
+      extraChorePay -= extraPayAmount
     }
+
+    updateChoresCompleted()
 })
 
   deleteBtn.addEventListener("click", () => {
+    if (checkbox.checked) {
+      checkbox.checked = false
+
+      checkbox.dispatchEvent(new Event("change"))
+    }
+
     textSpan.classList.toggle("line-through")
     textSpan.classList.toggle("opacity-60")
   })
@@ -89,6 +97,10 @@ const resetUI = () => {
   })
 
   payCheckbox.checked = false
+
+  basePay = 0
+  extraChorePay = 0
+
   choresDisplay.textContent = `Chores Completed: 0`
   payDisplay.textContent = `Pay Due: $0`
 }
@@ -217,8 +229,9 @@ if (payCheckbox.checked) {
   return;
 }
 
-const pay = selectedChild.payRates[count] ?? 0
-payDisplay.textContent = `Pay Due: $${pay}`;
+basePay = selectedChild.payRates[count] ?? 0
+
+payDisplay.textContent = `Pay Due: $${basePay + extraChorePay}`;
 };
 
 // COUNT CHORES & CHECKED BOXES
