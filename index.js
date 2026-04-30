@@ -17,6 +17,9 @@ choreBtn,
 noExtraChores 
 } from "./dom.js"
 
+import { resetUI } from "./render.js"
+import { countCompletedDays } from "./calculations.js"
+
 let children = JSON.parse(localStorage.getItem("children")) || starterChildren
 
 const PASSWORD = "05012021"
@@ -93,19 +96,9 @@ children.forEach((child) => {
     childOption.appendChild(childSelection)
 })
 
-const resetUI = () => {
-  dayChecks.forEach((dayCheck) => {
-    dayCheck.checked = false
-    dayCheck.disabled = false
-  })
-
-  payCheckbox.checked = false
-
+const resetData = () => {
   basePay = 0
   extraChorePay = 0
-
-  choresDisplay.textContent = `Chores Completed: 0`
-  payDisplay.textContent = `Pay Due: $0`
 }
 
 // get Weekdate function
@@ -246,13 +239,7 @@ const updateChoresCompleted = () => {
     return child.id === Number(selectedChildId);
   });
 
-  let count = 0;
-
-  dayChecks.forEach((dayCheck) => {
-    if (dayCheck.checked) {
-      count++;
-    }
-  });
+  const count = countCompletedDays(dayChecks)
 
   if (!selectedChild) {
     choresDisplay.textContent = "Chores Completed: 0"
