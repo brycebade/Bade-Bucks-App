@@ -27,6 +27,12 @@ import {
   calculateBasePay,
   calculateTotalPay
 } from "./calculations.js"
+import { loadFromStorage } from "./storage.js"
+
+import { 
+  saveToStorage,
+  loadFromStorage
+ } from "./storage.js"
 
 let children = JSON.parse(localStorage.getItem("children")) || starterChildren
 
