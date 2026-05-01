@@ -17,7 +17,11 @@ choreBtn,
 noExtraChores 
 } from "./dom.js"
 
-import { resetUI } from "./render.js"
+import { 
+  resetUI,
+  renderSummary
+ } from "./render.js"
+ 
 import { 
   countCompletedDays,
   calculateBasePay,
@@ -31,6 +35,25 @@ const PASSWORD = "05012021"
 let basePay = 0
 let extraChorePay = 0
 let selectedChild = null
+
+const updateSummary = () => {
+  if (!selectedChild) {
+    renderSummary(0, 0)
+    return
+  }
+
+  const count = countCompletedDays(dayChecks)
+
+  if (payCheckbox.checked) {
+    renderSummary(count, 0)
+    return
+  }
+
+  const basePay = calculateBasePay(count, selectedChild.payRates)
+  const totalPay = calculateTotalPay(basePay, extraChorePay)
+
+  renderSummary(count, totalPay)
+}
 
 function saveToStorage() {
     localStorage.setItem("children", JSON.stringify(children))
@@ -68,12 +91,7 @@ choreBtn.addEventListener("click", () => {
       extraChorePay -= extraPayAmount
     }
 
-    const count = countCompletedDays(dayChecks)
-    const basePay = calculateBasePay(count, selectedChild.payRates)
-    const totalPay = calculateTotalPay(basePay, extraChorePay)
-
-    choresDisplay.textContent = `Chores Completed: ${count}`
-    payDisplay.textContent = `Pay Due: $${totalPay}`
+    updateSummary()
 })
 
   deleteBtn.addEventListener("click", () => {
@@ -163,7 +181,7 @@ weekOption.addEventListener("change", () => {
   const selectedWeekText = weekOption.options[weekOption.selectedIndex].text
   weekText.textContent = `Week Of: ${selectedWeekText}`
 
-  const selectedChild = children.find((child) => {
+  selectedChild = children.find((child) => {
       return child.id === Number(selectedChildId)
   })
 
@@ -199,7 +217,7 @@ weekOption.addEventListener("change", () => {
   })
 
   payCheckbox.checked = selectedWeek.isPaid
-  updateChoresCompleted()
+  updateSummary()
 })
 
 // FUNCTIONS OF CHILD DROP DOWN LIST
@@ -227,40 +245,6 @@ childOption.addEventListener("change", () => {
   resetUI()
 })
 
-// PAY DUE DISPLAY
-
-const updatePayDisplay = (count, selectedChild) => {
-if (payCheckbox.checked) {
-  payDisplay.textContent = `Pay Due: $0`;
-  return;
-}
-
-const basePay = calculateBasePay(count, selectedChild.payRates)
-
-payDisplay.textContent = `Pay Due: $${basePay + extraChorePay}`;
-};
-
-// COUNT CHORES & CHECKED BOXES
-
-const updateChoresCompleted = () => {
-  const selectedChildId = childOption.value;
-
-  selectedChild = children.find((child) => {
-    return child.id === Number(selectedChildId);
-  });
-
-  const count = countCompletedDays(dayChecks)
-
-  if (!selectedChild) {
-    choresDisplay.textContent = "Chores Completed: 0"
-    payDisplay.textContent = `Pay Due: $0`;
-    return;
-  }
-
-  choresDisplay.textContent = `Chores Completed: ${count}`;
-  updatePayDisplay(count, selectedChild);
-};
-
 dayChecks.forEach((dayCheck) => {
   dayCheck.addEventListener("change", (event) => {
     const selectedChildId = childOption.value;
@@ -272,7 +256,7 @@ dayChecks.forEach((dayCheck) => {
       return;
     }
 
-    const selectedChild = children.find((child) => {
+    selectedChild = children.find((child) => {
       return child.id === Number(selectedChildId);
     });
 
@@ -303,7 +287,7 @@ dayChecks.forEach((dayCheck) => {
 
     selectedWeek[day] = isChecked;
 
-    updateChoresCompleted()
+    updateSummary()
     saveToStorage()
   });
 });
@@ -318,7 +302,7 @@ payCheckbox.addEventListener("change", () => {
     return;
   }
 
-  const selectedChild = children.find((child) => {
+  selectedChild = children.find((child) => {
     return child.id === Number(selectedChildId);
   });
 
@@ -354,7 +338,7 @@ payCheckbox.addEventListener("change", () => {
     }
   });
 
-  updateChoresCompleted()
+  updateSummary()
   saveToStorage()
 });
 
@@ -364,7 +348,7 @@ const savedWeekStart = localStorage.getItem("selectedWeekStart")
 if (savedChildId) {
     childOption.value = savedChildId
 
-    const selectedChild = children.find((child) => {
+    selectedChild = children.find((child) => {
         return child.id === Number(savedChildId)
     })
         

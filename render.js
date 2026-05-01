@@ -16,3 +16,8 @@ export const resetUI = () => {
     choresDisplay.textContent = `Chores Completed: 0`
     payDisplay.textContent = `Pay Due: $0`
 }
+
+export const renderSummary = (count, totalPay) => {
+    choresDisplay.textContent = `Chores Completed: ${count}`
+    payDisplay.textContent = `Pay Due: $${totalPay}`
+}
