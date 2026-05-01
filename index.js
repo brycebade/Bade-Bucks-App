@@ -18,7 +18,11 @@ noExtraChores
 } from "./dom.js"
 
 import { resetUI } from "./render.js"
-import { countCompletedDays } from "./calculations.js"
+import { 
+  countCompletedDays,
+  calculateBasePay,
+  calculateTotalPay
+} from "./calculations.js"
 
 let children = JSON.parse(localStorage.getItem("children")) || starterChildren
 
@@ -26,6 +30,7 @@ const PASSWORD = "05012021"
 
 let basePay = 0
 let extraChorePay = 0
+let selectedChild = null
 
 function saveToStorage() {
     localStorage.setItem("children", JSON.stringify(children))
@@ -63,7 +68,12 @@ choreBtn.addEventListener("click", () => {
       extraChorePay -= extraPayAmount
     }
 
-    updateChoresCompleted()
+    const count = countCompletedDays(dayChecks)
+    const basePay = calculateBasePay(count, selectedChild.payRates)
+    const totalPay = calculateTotalPay(basePay, extraChorePay)
+
+    choresDisplay.textContent = `Chores Completed: ${count}`
+    payDisplay.textContent = `Pay Due: $${totalPay}`
 })
 
   deleteBtn.addEventListener("click", () => {
@@ -225,7 +235,7 @@ if (payCheckbox.checked) {
   return;
 }
 
-basePay = selectedChild.payRates[count] ?? 0
+const basePay = calculateBasePay(count, selectedChild.payRates)
 
 payDisplay.textContent = `Pay Due: $${basePay + extraChorePay}`;
 };
@@ -235,7 +245,7 @@ payDisplay.textContent = `Pay Due: $${basePay + extraChorePay}`;
 const updateChoresCompleted = () => {
   const selectedChildId = childOption.value;
 
-  const selectedChild = children.find((child) => {
+  selectedChild = children.find((child) => {
     return child.id === Number(selectedChildId);
   });
 

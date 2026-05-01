@@ -9,3 +9,11 @@ export const countCompletedDays = (dayChecks) => {
 
     return count
 }
+
+export const calculateBasePay = (count, payRates) => {
+    return payRates[count] ?? 0
+}
+
+export const calculateTotalPay = (basePay, extraChorePay) => {
+    return basePay + extraChorePay
+}
