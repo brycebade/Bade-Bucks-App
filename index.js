@@ -37,6 +37,25 @@ choreBtn.addEventListener("click", () => {
 
   const formattedChore = chore.charAt(0).toUpperCase() + chore.slice(1)
 
+  const selectedWeekStart = weekOption.value
+  
+  if (!selectedChild || selectedWeekStart === "") return
+
+  const selectedWeek = selectedChild.weeks.find((week) => {
+    return week.weekStart === selectedWeekStart
+  })
+
+  if (!selectedWeek) return
+  
+  const newExtraChore = {
+    name: formattedChore,
+    amount: extraPayAmount,
+    completed: false
+  }
+
+  selectedWeek.extraChore.push(newExtraChore)
+  saveToStorage(children)
+
   noExtraChores.style.display = "none"
 
   const li = document.createElement("li")
@@ -163,7 +182,8 @@ weekOption.addEventListener("change", () => {
         friday: false,
         saturday: false,
         sunday: false,
-        isPaid: false
+        isPaid: false,
+        extraChores: []
       }
 
       selectedChild.weeks.push(selectedWeek)
@@ -177,6 +197,17 @@ weekOption.addEventListener("change", () => {
   })
 
   payCheckbox.checked = selectedWeek.isPaid
+
+  choreList.innerHTML = ""
+
+  if (!selectedWeek.extraChores || selectedWeek.extraChores.length === 0) {
+    noExtraChores.style.display = "block"
+  } else {
+    noExtraChores.style.display = "none"
+  }
+
+  
+
   updateSummary(selectedChild)
 })
 
@@ -238,7 +269,8 @@ dayChecks.forEach((dayCheck) => {
             friday: false,
             saturday: false,
             sunday: false,
-            isPaid: false
+            isPaid: false,
+            extraChores: []
         }
 
         selectedChild.weeks.push(selectedWeek)
