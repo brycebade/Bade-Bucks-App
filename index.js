@@ -25,21 +25,19 @@ import {
 import { 
   countCompletedDays,
   calculateBasePay,
-  calculateTotalPay
+  calculateTotalPay,
+  calculateExtraChorePay
 } from "./calculations.js"
-import { loadFromStorage } from "./storage.js"
 
 import { 
   saveToStorage,
   loadFromStorage
  } from "./storage.js"
 
-let children = JSON.parse(localStorage.getItem("children")) || starterChildren
+let children = loadFromStorage() || starterChildren
 
 const PASSWORD = "05012021"
 
-let basePay = 0
-let extraChorePay = 0
 let selectedChild = null
 
 const updateSummary = () => {
@@ -56,13 +54,10 @@ const updateSummary = () => {
   }
 
   const basePay = calculateBasePay(count, selectedChild.payRates)
+  const extraChorePay = calculateExtraChorePay()
   const totalPay = calculateTotalPay(basePay, extraChorePay)
 
   renderSummary(count, totalPay)
-}
-
-function saveToStorage() {
-    localStorage.setItem("children", JSON.stringify(children))
 }
 
 choreBtn.addEventListener("click", () => {
@@ -80,6 +75,7 @@ choreBtn.addEventListener("click", () => {
 
   const checkbox = document.createElement("input")
   checkbox.type = "checkbox"
+  checkbox.dataset.amount = extraPayAmount
   checkbox.classList.add("checkbox", "checkbox-primary", "checkbox-lg", "extraChoreCheckbox")
 
   const textSpan = document.createElement("span")
@@ -91,12 +87,6 @@ choreBtn.addEventListener("click", () => {
   deleteBtn.classList.add("ml-6")
 
   checkbox.addEventListener("change", () => {
-    if (checkbox.checked) {
-      extraChorePay += extraPayAmount
-    } else {
-      extraChorePay -= extraPayAmount
-    }
-
     updateSummary()
 })
 
@@ -129,11 +119,6 @@ children.forEach((child) => {
     childSelection.value = child.id
     childOption.appendChild(childSelection)
 })
-
-const resetData = () => {
-  basePay = 0
-  extraChorePay = 0
-}
 
 // get Weekdate function
 
@@ -213,7 +198,7 @@ weekOption.addEventListener("change", () => {
       }
 
       selectedChild.weeks.push(selectedWeek)
-      saveToStorage()
+      saveToStorage(children)
   }
 
   dayChecks.forEach((dayCheck) => {
@@ -288,13 +273,13 @@ dayChecks.forEach((dayCheck) => {
         }
 
         selectedChild.weeks.push(selectedWeek)
-        saveToStorage()
+        saveToStorage(children)
     }
 
     selectedWeek[day] = isChecked;
 
     updateSummary()
-    saveToStorage()
+    saveToStorage(children)
   });
 });
 
@@ -345,7 +330,7 @@ payCheckbox.addEventListener("change", () => {
   });
 
   updateSummary()
-  saveToStorage()
+  saveToStorage(children)
 });
 
 const savedChildId = localStorage.getItem("selectedChildId")

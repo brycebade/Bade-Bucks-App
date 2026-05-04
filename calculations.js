@@ -17,3 +17,15 @@ export const calculateBasePay = (count, payRates) => {
 export const calculateTotalPay = (basePay, extraChorePay) => {
     return basePay + extraChorePay
 }
+
+export const calculateExtraChorePay = () => {
+    let total = 0
+
+    document.querySelectorAll(".extraChoreCheckbox").forEach((checkbox) => {
+        if (checkbox.checked) {
+            total += Number(checkbox.dataset.amount)
+        }
+    })
+
+    return total
+}
