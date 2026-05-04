@@ -29,6 +29,60 @@ const PASSWORD = "05012021"
 
 let selectedChild = null
 
+const createExtraChoreElement = (chore, selectedWeek) => {
+  const li = document.createElement("li")
+  li.classList.add("flex", "items-center", "gap-3")
+
+  const checkbox = document.createElement("input")
+  checkbox.type = "checkbox"
+  checkbox.checked = chore.completed
+  checkbox.dataset.amount = String(chore.amount)
+  checkbox.classList.add("checkbox", "checkbox-primary", "checkbox-lg", "extraChoreCheckbox")
+
+  const textSpan = document.createElement("span")
+  textSpan.textContent = `${chore.name} - $${chore.amount}`
+
+  if (chore.completed) {
+    textSpan.classList.add("line-through", "opacity-60")
+  }
+
+  const deleteBtn = document.createElement("button")
+  deleteBtn.textContent = "❌"
+  deleteBtn.classList.add("ml-6")
+
+  checkbox.addEventListener("change", () => {
+    chore.completed = checkbox.completed
+
+    textSpan.classList.toggle("line-through")
+    textSpan.classList.toggle("opacity-60")
+    
+    saveToStorage(children)
+    updateSummary(selectedChild)
+  })
+
+  deleteBtn.addEventListener("click", () => {
+    const index = selectedWeek.extraChores.indexOf(chore)
+
+    if (index !== -1) {
+      selectedWeek.extraChores.splice(index, 1)
+    }
+
+    li.remove()
+    saveToStorage(children)
+    updateSummary(selectedChild)
+
+    if(selectedChild.extraChores.length === 0) {
+      noExtraChores.style.display = "block"
+    }
+  })
+
+  li.appendChild(checkbox)
+  li.appendChild(textSpan)
+  li.appendChild(deleteBtn)
+
+  return li
+}
+
 choreBtn.addEventListener("click", () => {
   const chore = extraChore.value.trim()
   const extraPayAmount = Number(extraPay.value)
@@ -53,46 +107,16 @@ choreBtn.addEventListener("click", () => {
     completed: false
   }
 
-  selectedWeek.extraChore.push(newExtraChore)
+  if (!selectedWeek.extraChores) {
+    selectedWeek.extraChores = []
+  }
+
+  selectedWeek.extraChores.push(newExtraChore)
   saveToStorage(children)
 
   noExtraChores.style.display = "none"
 
-  const li = document.createElement("li")
-  li.classList.add("flex", "items-center", "gap-3")
-
-  const checkbox = document.createElement("input")
-  checkbox.type = "checkbox"
-  checkbox.dataset.amount = extraPayAmount
-  checkbox.classList.add("checkbox", "checkbox-primary", "checkbox-lg", "extraChoreCheckbox")
-
-  const textSpan = document.createElement("span")
-  textSpan.textContent = formattedChore
-  //textSpan.style.margin = "0 10px"
-
-  const deleteBtn = document.createElement("button")
-  deleteBtn.textContent = "❌"
-  deleteBtn.classList.add("ml-6")
-
-  checkbox.addEventListener("change", () => {
-    updateSummary(selectedChild)
-})
-
-  deleteBtn.addEventListener("click", () => {
-    if (checkbox.checked) {
-      checkbox.checked = false
-
-      checkbox.dispatchEvent(new Event("change"))
-    }
-
-    textSpan.classList.toggle("line-through")
-    textSpan.classList.toggle("opacity-60")
-  })
-
-  li.appendChild(checkbox)
-  li.appendChild(textSpan)
-  li.appendChild(deleteBtn)
-
+  const li = createExtraChoreElement(newExtraChore, selectedWeek)
   choreList.appendChild(li)
 
   extraChore.value = ""
@@ -190,6 +214,10 @@ weekOption.addEventListener("change", () => {
       saveToStorage(children)
   }
 
+  if (!selectedWeek.extraChores) {
+    selectedWeek.extraChores = []
+  }
+
   dayChecks.forEach((dayCheck) => {
       const day = dayCheck.id
       dayCheck.checked = selectedWeek[day]
@@ -206,7 +234,10 @@ weekOption.addEventListener("change", () => {
     noExtraChores.style.display = "none"
   }
 
-  
+  selectedWeek.extraChores.forEach((chore) => {
+    const li = createExtraChoreElement(chore, selectedWeek)
+    choreList.appendChild(li)
+  })
 
   updateSummary(selectedChild)
 })
@@ -276,6 +307,10 @@ dayChecks.forEach((dayCheck) => {
         selectedChild.weeks.push(selectedWeek)
         saveToStorage(children)
     }
+
+    if (!selectedWeek.extraChores) {
+    selectedWeek.extraChores = []
+  }
 
     selectedWeek[day] = isChecked;
 
