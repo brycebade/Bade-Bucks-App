@@ -2,8 +2,6 @@ import { children as starterChildren } from "./data.js"
 
 import { 
 dayChecks,
-choresDisplay,
-payDisplay,
 payCheckbox,
 childOption,
 childName,
@@ -17,17 +15,8 @@ choreBtn,
 noExtraChores 
 } from "./dom.js"
 
-import { 
-  resetUI,
-  renderSummary
- } from "./render.js"
- 
-import { 
-  countCompletedDays,
-  calculateBasePay,
-  calculateTotalPay,
-  calculateExtraChorePay
-} from "./calculations.js"
+import { updateSummary } from "./summary.js"
+import { resetUI } from "./render.js"
 
 import { 
   saveToStorage,
@@ -39,26 +28,6 @@ let children = loadFromStorage() || starterChildren
 const PASSWORD = "05012021"
 
 let selectedChild = null
-
-const updateSummary = () => {
-  if (!selectedChild) {
-    renderSummary(0, 0)
-    return
-  }
-
-  const count = countCompletedDays(dayChecks)
-
-  if (payCheckbox.checked) {
-    renderSummary(count, 0)
-    return
-  }
-
-  const basePay = calculateBasePay(count, selectedChild.payRates)
-  const extraChorePay = calculateExtraChorePay()
-  const totalPay = calculateTotalPay(basePay, extraChorePay)
-
-  renderSummary(count, totalPay)
-}
 
 choreBtn.addEventListener("click", () => {
   const chore = extraChore.value.trim()
@@ -87,7 +56,7 @@ choreBtn.addEventListener("click", () => {
   deleteBtn.classList.add("ml-6")
 
   checkbox.addEventListener("change", () => {
-    updateSummary()
+    updateSummary(selectedChild)
 })
 
   deleteBtn.addEventListener("click", () => {
@@ -208,7 +177,7 @@ weekOption.addEventListener("change", () => {
   })
 
   payCheckbox.checked = selectedWeek.isPaid
-  updateSummary()
+  updateSummary(selectedChild)
 })
 
 // FUNCTIONS OF CHILD DROP DOWN LIST
@@ -278,7 +247,7 @@ dayChecks.forEach((dayCheck) => {
 
     selectedWeek[day] = isChecked;
 
-    updateSummary()
+    updateSummary(selectedChild)
     saveToStorage(children)
   });
 });
@@ -329,7 +298,7 @@ payCheckbox.addEventListener("change", () => {
     }
   });
 
-  updateSummary()
+  updateSummary(selectedChild)
   saveToStorage(children)
 });
 
