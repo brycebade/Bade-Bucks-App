@@ -5,8 +5,6 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 
 const supabase = createClient(supabaseUrl, supabaseKey)
 
-import { children as starterChildren } from "./data.js"
-
 import { 
 dayChecks,
 payCheckbox,
@@ -25,37 +23,11 @@ noExtraChores
 import { updateSummary } from "./summary.js"
 import { resetUI } from "./render.js"
 
-import { 
-  saveToStorage,
-  loadFromStorage
- } from "./storage.js"
-
 let children = []
 
 const PASSWORD = "05012021"
 
 let selectedChild = null
-
-const insertRealChildren = async () => {
-  for (const child of children) {
-  const { data, error } = await supabase
-  .from('children')
-  .insert([
-    {
-      name: child.name,
-      data: { 
-        weeks: child.weeks 
-      }
-    }
-  ])
-
-  if (error) {
-    console.log("ERROR:", error)
-  } else {
-    console.log("Inserted:", child.name)
-  }
-}
-}
 
 const loadChildren = async () => {
   const { data, error } = await supabase
@@ -63,23 +35,38 @@ const loadChildren = async () => {
   .select('*')
 
   if (error) {
-    console.log("ERROR:", error)
-    return
+    console.log("ERROR loading children:", error)
+    return []
   }
 
   return data.map((row) => ({
       id: row.id,
       name: row.name,
+      payRates: row.data.payRates,
       weeks: row.data.weeks
     }))
   }
 
 const init = async () => {
   children = await loadChildren()
-
   populateChildDropdown()
+}
 
-  console.log("APP CHILDREN:", children)
+const saveChildToSupabase = async (child) => {
+  const { error } = await supabase
+  .from('children')
+  .update({
+    data: {
+      payRates: child.payRates,
+      weeks: child.weeks
+    }
+  })
+  .eq('id', child.id)
+
+  if (error) {
+    console.log("SAVE ERROR:", error)
+    return
+  } 
 }
 
 const createExtraChoreElement = (chore, selectedWeek) => {
@@ -103,14 +90,15 @@ const createExtraChoreElement = (chore, selectedWeek) => {
   deleteBtn.textContent = "❌"
   deleteBtn.classList.add("ml-6")
 
-  checkbox.addEventListener("change", () => {
-    chore.completed = checkbox.completed
+  checkbox.addEventListener("change", async () => {
+    chore.completed = checkbox.checked
 
-    textSpan.classList.toggle("line-through")
-    textSpan.classList.toggle("opacity-60")
+    textSpan.classList.toggle("line-through", checkbox.checked)
+    textSpan.classList.toggle("opacity-60", checkbox.checked)
     
-    saveToStorage(children)
     updateSummary(selectedChild)
+
+    await saveChildToSupabase(selectedChild)
   })
 
   deleteBtn.addEventListener("click", () => {
@@ -121,10 +109,10 @@ const createExtraChoreElement = (chore, selectedWeek) => {
     }
 
     li.remove()
-    saveToStorage(children)
     updateSummary(selectedChild)
+    saveChildToSupabase(selectedChild)
 
-    if(selectedChild.extraChores.length === 0) {
+    if (selectedWeek.extraChores.length === 0) {
       noExtraChores.style.display = "block"
     }
   })
@@ -165,7 +153,8 @@ choreBtn.addEventListener("click", () => {
   }
 
   selectedWeek.extraChores.push(newExtraChore)
-  saveToStorage(children)
+
+  saveChildToSupabase(selectedChild)
 
   noExtraChores.style.display = "none"
 
@@ -240,7 +229,7 @@ weekOption.addEventListener("change", () => {
   weekText.textContent = `Week Of: ${selectedWeekText}`
 
   selectedChild = children.find((child) => {
-      return child.id === Number(selectedChildId)
+      return child.id === selectedChildId
   })
 
   if (!selectedChild) {
@@ -266,7 +255,7 @@ weekOption.addEventListener("change", () => {
       }
 
       selectedChild.weeks.push(selectedWeek)
-      saveToStorage(children)
+      saveChildToSupabase(selectedChild)
   }
 
   if (!selectedWeek.extraChores) {
@@ -306,7 +295,7 @@ childOption.addEventListener("change", () => {
   localStorage.removeItem("selectedWeekStart")
   
   const foundChild = children.find((child) => {
-      return child.id === Number(selectedChildId)
+      return child.id === selectedChildId
   })
 
   weekOption.value = ""
@@ -334,7 +323,7 @@ dayChecks.forEach((dayCheck) => {
     }
 
     selectedChild = children.find((child) => {
-      return child.id === Number(selectedChildId);
+      return child.id === selectedChildId
     });
 
     if (!selectedChild) {
@@ -360,7 +349,7 @@ dayChecks.forEach((dayCheck) => {
         }
 
         selectedChild.weeks.push(selectedWeek)
-        saveToStorage(children)
+        saveChildToSupabase(selectedChild)
     }
 
     if (!selectedWeek.extraChores) {
@@ -370,7 +359,7 @@ dayChecks.forEach((dayCheck) => {
     selectedWeek[day] = isChecked;
 
     updateSummary(selectedChild)
-    saveToStorage(children)
+    saveChildToSupabase(selectedChild)
   });
 });
 
@@ -385,7 +374,7 @@ payCheckbox.addEventListener("change", () => {
   }
 
   selectedChild = children.find((child) => {
-    return child.id === Number(selectedChildId);
+    return child.id === selectedChildId
   });
 
   if (!selectedChild) {
@@ -421,7 +410,7 @@ payCheckbox.addEventListener("change", () => {
   });
 
   updateSummary(selectedChild)
-  saveToStorage(children)
+  saveChildToSupabase(selectedChild)
 });
 
 const savedChildId = localStorage.getItem("selectedChildId")
@@ -431,7 +420,7 @@ if (savedChildId) {
     childOption.value = savedChildId
 
     selectedChild = children.find((child) => {
-        return child.id === Number(savedChildId)
+        return child.id === savedChildId
     })
         
     if (selectedChild) {
@@ -448,13 +437,9 @@ resetButton.addEventListener("click", () => {
     const confirmReset = confirm("Are you sure you want to reset all data?")
     if (!confirmReset) return
     
-    localStorage.removeItem("children")
     localStorage.removeItem("selectedChildId")
     localStorage.removeItem("selectedWeekStart")
     location.reload()
 })
 
-// testInsert()
-// insertRealChildren()
-// loadChildren()
 init()
