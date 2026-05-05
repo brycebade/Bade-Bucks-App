@@ -1,3 +1,10 @@
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+const supabaseUrl = 'https://nbvvzaausrqrqhtuptqi.supabase.co'
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5idnZ6YWF1c3JxcnFodHVwdHFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxNjI4OTQsImV4cCI6MjA5MTczODg5NH0.oLkIV4-vyx3cc8xZWljW-r7iwnNsdmfTauwLjg4Sqk4'
+
+const supabase = createClient(supabaseUrl, supabaseKey)
+
 import { children as starterChildren } from "./data.js"
 
 import { 
@@ -23,11 +30,57 @@ import {
   loadFromStorage
  } from "./storage.js"
 
-let children = loadFromStorage() || starterChildren
+let children = []
 
 const PASSWORD = "05012021"
 
 let selectedChild = null
+
+const insertRealChildren = async () => {
+  for (const child of children) {
+  const { data, error } = await supabase
+  .from('children')
+  .insert([
+    {
+      name: child.name,
+      data: { 
+        weeks: child.weeks 
+      }
+    }
+  ])
+
+  if (error) {
+    console.log("ERROR:", error)
+  } else {
+    console.log("Inserted:", child.name)
+  }
+}
+}
+
+const loadChildren = async () => {
+  const { data, error } = await supabase
+  .from('children')
+  .select('*')
+
+  if (error) {
+    console.log("ERROR:", error)
+    return
+  }
+
+  return data.map((row) => ({
+      id: row.id,
+      name: row.name,
+      weeks: row.data.weeks
+    }))
+  }
+
+const init = async () => {
+  children = await loadChildren()
+
+  populateChildDropdown()
+
+  console.log("APP CHILDREN:", children)
+}
 
 const createExtraChoreElement = (chore, selectedWeek) => {
   const li = document.createElement("li")
@@ -123,14 +176,16 @@ choreBtn.addEventListener("click", () => {
   extraPay.value = ""
 })
 
-// POPULATE DROP DOWN LISTS
+const populateChildDropdown = () => {
+  childOption.innerHTML = `<option value="">Select Child</option>`
 
-children.forEach((child) => {
-    const childSelection = document.createElement("option")
-    childSelection.textContent = child.name
-    childSelection.value = child.id
-    childOption.appendChild(childSelection)
-})
+  children.forEach((child) => {
+    const option = document.createElement("option")
+    option.value = child.id
+    option.textContent = child.name
+    childOption.appendChild(option)
+  })
+}
 
 // get Weekdate function
 
@@ -398,3 +453,8 @@ resetButton.addEventListener("click", () => {
     localStorage.removeItem("selectedWeekStart")
     location.reload()
 })
+
+// testInsert()
+// insertRealChildren()
+// loadChildren()
+init()
