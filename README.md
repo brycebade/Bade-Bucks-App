@@ -1,4 +1,8 @@
 # Bade Bucks App
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow)
+![Supabase](https://img.shields.io/badge/Backend-Supabase-green)
+![Tailwind](https://img.shields.io/badge/CSS-Tailwind-38B2AC)
+![Status](https://img.shields.io/badge/Status-Active%20Development-blue)
 
 A full-stack chore tracking app built for my family to manage chores, extra tasks, weekly pay, and reward tracking.
 Built to solve a real household workflow while practicing frontend architecture, state management, and backend integration.
@@ -7,35 +11,40 @@ Built to solve a real household workflow while practicing frontend architecture,
 
 ## Live Demo
 
-> https://brycebade.github.io/Bade-Bucks-App/
+🔗 [Live Demo](https://brycebade.github.io/Bade-Bucks-App/)
 
 ---
 
 ## Screenshots
 
-<h3 align="center"><u>Desktop View</h3></u>
+<h3 align="center"><u>Desktop View</u></h3>
+
+<br>
 
 <p align="center">
-   <img src="./assets/dashboard-desktop.png" width="800">
+   <img 
+      src="./assets/dashboard-desktop.png" 
+      width="800"
+      style="border-radius: 12px; border: 1px solid #30363d"
+      >
 </p>
 
-<h3 align="center"><u>Extra Chores</h3></u>
+<h3 align="center"><u>Mobile View</u></h3>
+
+<br>
 
 <p align="center">
-   <img src="./assets/extra-chores.png" width="800">
-</p>
-
-<h3 align="center"><u>Mobile View</h3></u>
-
-<p align="center">
-   <img src="./assets/mobile-view.png" width="400">
+   <img src="./assets/mobile-view.png" 
+   width="400"
+   style="border-radius: 12px; border: 1px solid #30363d"
+   >
 </p>
 
 ---
 
 ## Why I Built This
 
-Originally created as a "fake-currency" system where kids earn rewards like screen time and privileges through completed chores.
+Originally created as a "fake currency" system where kids earn rewards like screen time and privileges through completed chores.
 
 ## Features
 
@@ -62,7 +71,7 @@ Originally created as a "fake-currency" system where kids earn rewards like scre
 
 ## Current Focus
 
-This project is actively being refactored into smaller modules to improve maintainability and scalability as new features are added.
+The application has grown from a single-file JavaScript project into a modular architecture with separated rendering, calculations, storage, and UI responsibilities.
 
 ## How to Run Locally
 
@@ -81,15 +90,15 @@ This project is actively being refactored into smaller modules to improve mainta
 
 ## Project Structure
 
-* `index.html` → Main layout and UI structure
-* `style.css` → Custom styling (if applicable)
-* `index.js` → App initialization and event wiring
-* `dom.js` → Centralized DOM queries and reusable element references
-* `render.js` → UI rendering logic
-* `calculations.js` → Pay and chore calculations
-* `storage.js` → Supabase/database interactions
-* `summary.js` → Summary/state display logic
-* `data.js` → Default data structures
+* **index.html** → Main layout and UI structure
+* **style.css** → Custom styling (if applicable)
+* **index.js** → App initialization and event wiring
+* **dom.js** → Centralized DOM queries and reusable element references
+* **render.js** → UI rendering logic
+* **calculations.js** → Pay and chore calculations
+* **storage.js** → Supabase/database interactions
+* **summary.js** → Summary/state display logic
+* **data.js** → Default data structures
 
 ---
 
@@ -102,6 +111,12 @@ This project is actively being refactored into smaller modules to improve mainta
 * Array methods like `find()` and iteration loops
 * State management between UI and data
 * Synchronizing frontend state with backend data
+
+---
+
+### Challenges Faced
+
+One of the biggest challenges was keeping UI state synchronized between selected children, weeks, chore checkboxes, extra chores, and backend persistence without causing stale or incorrect calculations.
 
 ---
 
@@ -118,7 +133,7 @@ This project is actively being refactored into smaller modules to improve mainta
 ## Future Improvements
 
 * Add authentication and user roles (parent vs child)
-* Create user accounts for each child
+* Add parent approval workflows for completed chores
 * Improve mobile responsiveness and layout
 * Add rewards/store system for spending earned money
 * Add weekly summaries and history tracking
@@ -128,12 +143,6 @@ This project is actively being refactored into smaller modules to improve mainta
 ## Author
 
 Bryce Bade
-
----
-
-### Challenges Faced
-
-One of the biggest challenges was keeping UI state synchronized between selected children, weeks, chore checkboxes, extra chores, and backend persistence without causing stale or incorrect calculations.
 
 ---
 
