@@ -1,37 +1,59 @@
 # Bade Bucks App
 
-A simple web app to track kids' chores and calculate weekly pay in a clear, visual way.
+A full-stack chore tracking app built for my family to manage chores, extra tasks, weekly pay, and reward tracking.
 
 ---
 
-## Demo
+## Live Demo
 
-> *(Add your live link here later — GitHub Pages or deployed site)*
-> https://your-live-link.com
-
-![App Screenshot](./screenshot.png)
+> https://brycebade.github.io/Bade-Bucks-App/
 
 ---
+
+## Screenshots
+
+### Desktop View
+
+![Bade Bucks desktop dashboard](./assets/dashboard-desktop.png)
+
+### Extra Chores
+
+![Extra Chores Section](./assets/extra-chores.png)
+
+### Mobile View
+
+![Bade Bucks mobile view](./assets/mobile-view.png)
+
+## Why
+
+Originally created as a "fake-currency: system where kids earn rewards like screen time and privileges through completed chores.
 
 ## Features
 
 * Select a child and week to view progress
 * Track daily chores using checkboxes
+* Add extra chores with custom pay amounts
+* Mark extra chores complete/incomplete
 * Automatically calculate total chores completed
 * Dynamically calculate pay due based on rules per child
 * Mark a week as paid to reset displayed balance
-* Persist data using localStorage (no login required)
+* Persist chore and payment data using Supabase backend storage
+* Responsive layout using Tailwind/DaisyUI
 
 ---
 
 ## Tech Stack
 
 * HTML
-* CSS (Tailwind + DaisyUI)
-* JavaScript (Vanilla JS)
-* LocalStorage
+* CSS / Tailwind / DaisyUI
+* JavaScript (ES6+)
+* Supabase
 
 ---
+
+## Current Focus
+
+This project is actively being refactored into smaller modules to improve maintainability and scalability as new features are added.
 
 ## How to Run Locally
 
@@ -71,7 +93,7 @@ A simple web app to track kids' chores and calculate weekly pay in a clear, visu
 
 ## What I Learned
 
-* How to sync UI state with underlying data without breaking things
+* How to manage application state across UI, local data, and backend persistence
 * How to structure and access nested objects safely
 * How event-driven programming works in real apps
 * How small bugs in logic (like incorrect references or scope issues) can break functionality
@@ -97,5 +119,4 @@ Bryce Bade
 
 ## Notes
 
-This project is part of my journey learning JavaScript and building real-world applications.
-The goal is not just functionality, but understanding how and why the code works.
+The goal of this project is to build a practical real-world application while improving software design, state management, and backend integration skills.
