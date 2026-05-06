@@ -35,7 +35,7 @@ Built to solve a real household workflow while practicing frontend architecture,
 
 <p align="center">
    <img src="./assets/mobile-view.png" 
-   width="400"
+   width="300"
    style="border-radius: 12px; border: 1px solid #30363d"
    >
 </p>
