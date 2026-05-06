@@ -1,6 +1,7 @@
 # Bade Bucks App
 
 A full-stack chore tracking app built for my family to manage chores, extra tasks, weekly pay, and reward tracking.
+Built to solve a real household workflow while practicing frontend architecture, state management, and backend integration.
 
 ---
 
@@ -12,21 +13,29 @@ A full-stack chore tracking app built for my family to manage chores, extra task
 
 ## Screenshots
 
-### Desktop View
+<h3 align="center"><u>Desktop View</h3></u>
 
-![Bade Bucks desktop dashboard](./assets/dashboard-desktop.png)
+<p align="center">
+   <img src="./assets/dashboard-desktop.png" width="800">
+</p>
 
-### Extra Chores
+<h3 align="center"><u>Extra Chores</h3></u>
 
-![Extra Chores Section](./assets/extra-chores.png)
+<p align="center">
+   <img src="./assets/extra-chores.png" width="800">
+</p>
 
-### Mobile View
+<h3 align="center"><u>Mobile View</h3></u>
 
-![Bade Bucks mobile view](./assets/mobile-view.png)
+<p align="center">
+   <img src="./assets/mobile-view.png" width="400">
+</p>
 
-## Why
+---
 
-Originally created as a "fake-currency: system where kids earn rewards like screen time and privileges through completed chores.
+## Why I Built This
+
+Originally created as a "fake-currency" system where kids earn rewards like screen time and privileges through completed chores.
 
 ## Features
 
@@ -74,8 +83,13 @@ This project is actively being refactored into smaller modules to improve mainta
 
 * `index.html` → Main layout and UI structure
 * `style.css` → Custom styling (if applicable)
-* `index.js` → Core app logic and event handling
-* `data.js` → Initial data model for children and weeks
+* `index.js` → App initialization and event wiring
+* `dom.js` → Centralized DOM queries and reusable element references
+* `render.js` → UI rendering logic
+* `calculations.js` → Pay and chore calculations
+* `storage.js` → Supabase/database interactions
+* `summary.js` → Summary/state display logic
+* `data.js` → Default data structures
 
 ---
 
@@ -87,7 +101,7 @@ This project is actively being refactored into smaller modules to improve mainta
   *(children → weeks → days)*
 * Array methods like `find()` and iteration loops
 * State management between UI and data
-* LocalStorage for persistent data
+* Synchronizing frontend state with backend data
 
 ---
 
@@ -103,7 +117,7 @@ This project is actively being refactored into smaller modules to improve mainta
 
 ## Future Improvements
 
-* Add backend support (Supabase) for real data storage
+* Add authentication and user roles (parent vs child)
 * Create user accounts for each child
 * Improve mobile responsiveness and layout
 * Add rewards/store system for spending earned money
@@ -114,6 +128,12 @@ This project is actively being refactored into smaller modules to improve mainta
 ## Author
 
 Bryce Bade
+
+---
+
+### Challenges Faced
+
+One of the biggest challenges was keeping UI state synchronized between selected children, weeks, chore checkboxes, extra chores, and backend persistence without causing stale or incorrect calculations.
 
 ---
 
