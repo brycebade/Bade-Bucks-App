@@ -2,37 +2,45 @@ export const rewards = [
     {
         id: 1,
         rewardItem: "30min Extra Electronics",
-        cost: 50 
+        cost: 50,
+        image: "assets/images/mobile-phone-electronics-svgrepo-com.svg"
     },
     {
         id: 2,
         rewardItem: "60min Extra Electronics",
-        cost: 100
+        cost: 100,
+        image: "assets/images/mobile-phone-electronics-svgrepo-com.svg"
     },
     {
         id: 3,
         rewardItem: "Screen Saturday",
-        cost: 300
+        cost: 300,
+        image: "assets/images/computer-svgrepo-com.svg"
+
     },
     {
         id: 4,
         rewardItem: "60min Living Room TV",
-        cost: 50
+        cost: 50,
+        image: "assets/images/tv-svgrepo-com.svg"
     },
     {
         id: 5,
         rewardItem: "Adult Menu",
-        cost: 350
+        cost: 350,
+        image: "assets/images/taco-svgrepo-com.svg"
     },
     {
         id: 6,
         rewardItem: "McDonald's Lunch",
-        cost: 200
+        cost: 200,
+        image: "assets/images/hamburger-svgrepo.svg"
     },
     {
         id: 7,
         rewardItem: "Hot Lunch",
-        cost: 100
+        cost: 100,
+        image: "assets/images/fried-chicken-lunch-svgrepo-com"
     },
     {
         id: 8,
