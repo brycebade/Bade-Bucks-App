@@ -40,71 +40,84 @@ export const rewards = [
         id: 7,
         rewardItem: "Hot Lunch",
         cost: 100,
-        image: "assets/images/fried-chicken-lunch-svgrepo-com"
+        image: "assets/images/fried-chicken-lunch-svgrepo-com.svg"
     },
     {
         id: 8,
         rewardItem: "Bowl of Popcorn",
-        cost: 50
+        cost: 50,
+        image: "assets/images/popcorn-svgrepo-com.svg"
     },
     {
         id: 9,
         rewardItem: "Soda with Meal",
-        cost: 40
+        cost: 40,
+        image: "assets/images/soda-glass-svgrepo-com.svg"
     },
     {
         id: 10,
         rewardItem: "Fountain at Gas Station",
-        cost: 40
+        cost: 40,
+        image: "assets/images/drink-cola-coke-svgrepo.svg"
     },
     {
         id: 11,
         rewardItem: "Paid Time Off",
-        cost: 200
+        cost: 200,
+        image: "assets/images/beach-sunny-svgrepo-com.svg"
     },
     {
         id: 12,
         rewardItem: "Stay Up 30min Later",
-        cost: 60
+        cost: 60,
+        image: "assets/images/lamp-svgrepo-com.svg"
     },
     {
         id: 13,
         rewardItem: "Stay up 60min Later",
-        cost: 100
+        cost: 100,
+        image: "assets/images/lamp-svgrepo-com.svg"
     },
     {
         id: 14,
         rewardItem: "Movie Night of Choice",
-        cost: 5
+        cost: 5,
+        image: "assets/images/movie-player-clapperboard-svgrepo-com.svg"
     },
     {
         id: 15,
         rewardItem: "Game Night of Choice",
-        cost: 5
+        cost: 5,
+        image: "assets/images/dart-board-svgrepo-com.svg"
     },
     {
         id: 16,
         rewardItem: "$5 Cash",
-        cost: 150
+        cost: 150,
+        image: "assets/images/cash-svgrepo-com.svg"
     },
     {
         id: 17,
         rewardItem: "$10 cash",
-        cost: 300
+        cost: 300,
+        image: "assets/images/cash-svgrepo-com.svg"
     },
     {
         id: 18,
         rewardItem: "$20 cash",
-        cost: 600
+        cost: 600,
+        image: "assets/images/cash-svgrepo-com.svg"
     },
     {
         id: 19,
         rewardItem: "$40 cash",
-        cost: 1200
+        cost: 1200,
+        image: "assets/images/cash-svgrepo-com.svg"
     },
     {
         id: 20,
         rewardItem: "$50 cash",
-        cost: 1500
+        cost: 1500,
+        image: "assets/images/cash-svgrepo-com.svg"
     }
 ]
