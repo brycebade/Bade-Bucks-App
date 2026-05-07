@@ -18,10 +18,7 @@ extraPay,
 choreList,
 choreBtn,
 noExtraChores,
-rewardsList
 } from "./dom.js"
-
-import { rewards } from "./rewards-data.js"
 
 import { updateSummary } from "./summary.js"
 import { resetUI } from "./render.js"
@@ -178,12 +175,6 @@ const populateChildDropdown = () => {
     childOption.appendChild(option)
   })
 }
-
-rewards.forEach((reward) => {
-  const rewardCard = document.createElement("div")
-
-  console.log(rewardCard)
-})
 
 // get Weekdate function
 
