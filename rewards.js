@@ -1,4 +1,9 @@
-import { rewardsList } from "./dom.js"
+import { 
+  rewardsList,
+  rewardSuggestionBtn,
+  rewardSuggestionInput,
+  rewardSuggestionMessage 
+} from "./dom.js"
 
 import { rewards } from "./rewards-data.js"
 
@@ -23,3 +28,9 @@ rewards.forEach((reward) => {
 
     rewardsList.appendChild(rewardCard)
 })
+
+rewardSuggestionBtn.addEventListener("click", () => {
+  rewardSuggestionInput.value = ""
+})
+
+rewardSuggestionMessage.textContent = "Suggestion saved for future parent approval."
