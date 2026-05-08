@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="synthwave">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bade Bucks Rewards</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css" />
-  </head>
+</head>
 
-    <body class="min-h-screen bg-base-200">
-        <div class="navbar bg-base-300 shadow-md">
-            <!-- EMPTY LEFT SIDE NAVBAR -->
-            <div class="navbar-start"></div>
+<body class="min-h-screen bg-base-200">
+    <div class="navbar bg-base-300 shadow-md">
+        <!-- EMPTY LEFT SIDE NAVBAR -->
+        <div class="navbar-start"></div>
 
-            <!-- CENTER NAVBAR -->
-            <div class="navbar-center">
-                <h1 class="text-xl font-bold">Bade Bucks</h1>
+        <!-- CENTER NAVBAR -->
+        <div class="navbar-center">
+            <div class="flex items-center gap-2">
+                <img src="./assets/bade-bucks-currency-logo.png" alt="Bade Bucks Logo" class="w-10 h-10 object-contain">
+                <span class="text-2xl font-bold text-emerald-400">Bade Bucks</span>
+            </div>
         </div>
 
         <!-- RIGHT NAVBAR HAMBURGER -->
@@ -25,43 +29,40 @@
                     ☰
                 </button>
 
-            <ul 
-            tabindex="0" 
-            class="dropdown-content z-10 menu p-4 shadow bg-base-100 rounded-box w-52"
-            >
-                <li><a href="index.html">Dashboard</a></li>
-                <li><a href="rewards.html">Rewards</a></li>
-                <li><a href="#">Chore Tasks</a></li>
-                <li><a href="#">Bills / Fees</a></li>
-            </ul>
+                <ul tabindex="0" class="dropdown-content z-10 menu p-4 shadow bg-base-100 rounded-box w-52">
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="rewards.html">Rewards</a></li>
+                    <li><a href="#">Chore Tasks</a></li>
+                    <li><a href="#">Bills / Fees</a></li>
+                </ul>
             </div>
         </div>
-        </div>
+    </div>
 
-        <main class="max-w-7xl mx-auto px-4 py-8">
+    <main class="max-w-7xl mx-auto px-4 py-8">
 
-            <section class="mb-8 text-center">
-                <h2 class="text-4xl font-bold">Rewards</h2>
-            </section>
+        <section class="mb-8 text-center">
+            <h2 class="text-4xl font-bold">Rewards</h2>
+        </section>
 
-            <section>
-                <div 
-                    id="rewardsList" 
-                    class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <section>
+            <div id="rewardsList" class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+            </div>
+        </section>
+
+        <section class="mt-12 flex justify-center">
+            <div class="w-full max-w-md">
+                <div class="flex gap-2">
+                    <input id="rewardSuggestionInput" type="text" placeholder="Suggest a reward..."
+                        class="input input-bordered w-full">
+                    <button id="rewardSuggestionBtn" class="btn btn-primary">Enter</button>
                 </div>
-            </section>
+                <p id="rewardSuggestionMessage" class="text-center mt-3 text-sm opacity-70"></p>
+            </div>
+        </section>
+    </main>
 
-            <section class="mt-12 flex justify-center">
-                <div class="w-full max-w-md">
-                    <div class="flex gap-2">
-                        <input id="rewardSuggestionInput" type="text" placeholder="Suggest a reward..." class="input input-bordered w-full">
-                        <button id="rewardSuggestionBtn" class="btn btn-primary">Enter</button>
-                    </div>
-                    <p id="rewardSuggestionMessage" class="text-center mt-3 text-sm opacity-70"></p>
-                </div>
-            </section>
-        </main>
+    <script type="module" src="rewards.js"></script>
+</body>
 
-        <script type="module" src="rewards.js"></script>
-    </body>
 </html>

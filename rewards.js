@@ -22,7 +22,10 @@ rewards.forEach((reward) => {
         >
       </figure>
 
-      <p class="text-lg font-bold text-center mt-auto">$${reward.cost}</p>
+      <p class="text-lg font-bold text-white flex items-center justify-center gap-1">
+        <span class="font-semibold">Ƀ</span>
+        ${reward.cost}
+      </p>
     </div>
     `
 
