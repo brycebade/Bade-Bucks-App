@@ -1,243 +1,200 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="synthwave">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bade Bucks Homepage</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css" />
-  </head>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bade Bucks Homepage</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css" />
+</head>
 
 <body class="min-h-screen bg-base-200">
-    <div class="navbar bg-base-300 shadow-md">
-      <!-- LEFT NAVBAR HAMBURGER -->
-      <div class="navbar-start">
-        <div class="dropdown">
-          <button tabindex="0" class="btn btn-ghost btn-square">
-            ☰
-          </button>
+  <div class="navbar bg-base-300 shadow-md">
+    <!-- LEFT NAVBAR HAMBURGER -->
+    <div class="navbar-start">
+      <div class="dropdown">
+        <button tabindex="0" class="btn btn-ghost btn-square">
+          ☰
+        </button>
 
-          <div
-            tabindex="0"
-            class="dropdown-content z-10 menu p-4 shadow bg-base-100 rounded-box w-80"
-          >
-            <label class="form-control w-full mb-4">
-              <span class="label-text">Select Child</span>
-              <select id="childOption" class="select select-bordered w-full">
-                <option value="">Select Child</option>
-              </select>
-            </label>
+        <div tabindex="0" class="dropdown-content z-10 menu p-4 shadow bg-base-100 rounded-box w-80">
 
-            <label class="form-control w-full mb-4">
-              <span class="label-text">Select Week</span>
-              <select id="weekOption" class="select select-bordered w-full">
-                <option value="">Select Week</option>
-              </select>
-            </label>
+          <button class="btn btn-outline w-full mb-2">Add Child</button>
+          <button class="btn btn-outline w-full mb-2">Settings</button>
+          <button class="btn btn-outline w-full mb-2" id="resetStorage">Clear Selection</button>
 
-            <div class="divider my-2"></div>
-
-            <button class="btn btn-outline w-full mb-2">Add Child</button>
-            <button class="btn btn-outline w-full mb-2">Settings</button>
-            <button class="btn btn-outline w-full mb-2" id="resetStorage">
-              Clear Selection
-            </button>
-
-            <label class="flex items-center justify-between mt-2">
-              <span class="label-text">Dark Mode</span>
-              <input
-                id="themeToggle"
-                type="checkbox"
-                class="toggle toggle-primary"
-              />
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <!-- CENTER NAVBAR -->
-      <div class="navbar-center">
-        <h1 class="text-xl font-bold">Bade Bucks</h1>
-      </div>
-
-      <!-- RIGHT NAVBAR HAMBURGER -->
-      <div class="navbar-end">
-        <div class="dropdown dropdown-end">
-          <button tabindex="0" class="btn btn-ghost btn-square">
-            ☰
-          </button>
-
-          <ul 
-          tabindex="0" 
-          class="dropdown-content z-10 menu p-4 shadow bg-base-100 rounded-box w-52"
-          >
-            <li><a href="index.html">Dashboard</a></li>
-            <li><a href="rewards.html">Rewards</a></li>
-            <li><a href="#">Chore Tasks</a></li>
-            <li><a href="#">Bills / Fees</a></li>
-          </ul>
+          <label class="flex items-center justify-between mt-2">
+            <span class="label-text">Dark Mode</span>
+            <input id="themeToggle" type="checkbox" class="toggle toggle-primary" />
+          </label>
         </div>
       </div>
     </div>
 
-    <!-- DASHBOARD WRAPPER -->
-    <main class="p-3 md:p-6 max-w-7xl mx-auto">
-      <!-- ROW 1: CHILD & WEEK -->
-      <section class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <div class="card bg-base-100 shadow-md">
-          <div class="card-body p-4">
-            <h2 id="childName" class="card-title">No child selected</h2>
-          </div>
+    <!-- CENTER NAVBAR -->
+    <div class="navbar-center">
+      <h1 class="text-xl font-bold">Bade Bucks</h1>
+    </div>
+
+    <!-- RIGHT NAVBAR HAMBURGER -->
+    <div class="navbar-end">
+      <div class="dropdown dropdown-end">
+        <button tabindex="0" class="btn btn-ghost btn-square">
+          ☰
+        </button>
+
+        <ul tabindex="0" class="dropdown-content z-10 menu p-4 shadow bg-base-100 rounded-box w-52">
+          <li><a href="index.html">Dashboard</a></li>
+          <li><a href="rewards.html">Rewards</a></li>
+          <li><a href="#">Chore Tasks</a></li>
+          <li><a href="#">Bills / Fees</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHILD / WEEK CONTROLS -->
+  <section class="p-4 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
+    <label class="form-control w-full">
+      <span class="label-text">Select Child</span>
+      <select id="childOption" class="select select-bordered w-full">
+        <option value="">Select Child</option>
+      </select>
+    </label>
+
+    <label class="form-control w-full">
+      <span class="label-text">Select Week</span>
+      <select id="weekOption" class="select select-bordered w-full">
+        <option value="">Select Week</option>
+      </select>
+    </label>
+  </section>
+
+  <div class="divider my-2"></div>
+
+
+  <!-- DASHBOARD WRAPPER -->
+  <main class="p-3 md:p-6 max-w-7xl mx-auto">
+    <!-- ROW 1: CHILD & WEEK -->
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+      <div class="card bg-base-100 shadow-md">
+        <div class="card-body p-4">
+          <h2 id="childName" class="card-title">No child selected</h2>
         </div>
-        <div class="card bg-base-100 shadow-md">
-          <div class="card-body p-4">
-            <h2 id="week" class="card-title">Week Of:</h2>
-          </div>
+      </div>
+      <div class="card bg-base-100 shadow-md">
+        <div class="card-body p-4">
+          <h2 id="week" class="card-title">Week Of:</h2>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- ROW 2: STATS -->
-      <section class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <div id="choresCompleted" class="alert alert-success py-3 px-4 shadow-md">
-          <span>Chores Completed: 0</span>
-        </div>
-        <div id="payDue" class="alert alert-primary py-3 px-4 shadow-md">
-          <span>Pay Due: $0</span>
-        </div>
-      </section>
+    <!-- ROW 2: STATS -->
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <div id="choresCompleted" class="alert alert-success py-3 px-4 shadow-md">
+        <span>Chores Completed: 0</span>
+      </div>
+      <div id="payDue" class="alert alert-primary py-3 px-4 shadow-md">
+        <span>Pay Due: $0</span>
+      </div>
+    </section>
 
-      <!-- MAIN DASHBOARD GRID -->
-      <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- LEFT / DAILY CHORES -->
-        <div class="card bg-base-100 shadow-xl">
-          <div class="card-body">
-            <h2 class="card-title text-xl md:text-2xl">Daily Chores</h2>
+    <!-- MAIN DASHBOARD GRID -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- LEFT / DAILY CHORES -->
+      <div class="card bg-base-100 shadow-xl">
+        <div class="card-body">
+          <h2 class="card-title text-xl md:text-2xl">Daily Chores</h2>
 
-            <div class="divider"></div>
-
-            <div class="space-y-3">
-              <label class="label cursor-pointer bg-base-200 rounded-box px-4 hover:bg-base-300 transition">
-                <span class="label-text text-lg">Monday</span>
-                <input
-                  type="checkbox"
-                  id="monday"
-                  class="checkbox checkbox-primary checkbox-lg dayCheckbox"
-                />
-              </label>
-
-              <label class="label cursor-pointer bg-base-200 rounded-box px-4 hover:bg-base-300 transition">
-                <span class="label-text text-lg">Tuesday</span>
-                <input
-                  type="checkbox"
-                  id="tuesday"
-                  class="checkbox checkbox-primary checkbox-lg dayCheckbox"
-                />
-              </label>
-
-              <label class="label cursor-pointer bg-base-200 rounded-box px-4 hover:bg-base-300 transition">
-                <span class="label-text text-lg">Wednesday</span>
-                <input
-                  type="checkbox"
-                  id="wednesday"
-                  class="checkbox checkbox-primary checkbox-lg dayCheckbox"
-                />
-              </label>
-
-              <label class="label cursor-pointer bg-base-200 rounded-box px-4 hover:bg-base-300 transition">
-                <span class="label-text text-lg">Thursday</span>
-                <input
-                  type="checkbox"
-                  id="thursday"
-                  class="checkbox checkbox-primary checkbox-lg dayCheckbox"
-                />
-              </label>
-
-              <label class="label cursor-pointer bg-base-200 rounded-box px-4 hover:bg-base-300 transition">
-                <span class="label-text text-lg">Friday</span>
-                <input
-                  type="checkbox"
-                  id="friday"
-                  class="checkbox checkbox-primary checkbox-lg dayCheckbox"
-                />
-              </label>
-
-              <label class="label cursor-pointer bg-base-200 rounded-box px-4 hover:bg-base-300 transition">
-                <span class="label-text text-lg">Saturday</span>
-                <input
-                  type="checkbox"
-                  id="saturday"
-                  class="checkbox checkbox-primary checkbox-lg dayCheckbox"
-                />
-              </label>
-
-              <label class="label cursor-pointer bg-base-200 rounded-box px-4 hover:bg-base-300 transition">
-                <span class="label-text text-lg">Sunday</span>
-                <input
-                  type="checkbox"
-                  id="sunday"
-                  class="checkbox checkbox-primary checkbox-lg dayCheckbox"
-                />
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <!-- RIGHT / SIDE AREA -->
-                <aside class="space-y-6">
-          <div class="card bg-base-100 shadow-xl border border-base-300">
-            <div class="card-body gap-4">
-              <h2 class="card-title text-xl md:text-2xl">Extra Chores</h2>
-              <label class="form-control w-full">
-                <span class="label-text mb-1">Additional Chore</span>
-                <div class="flex flex-col sm:flex-row gap-2">
-                  <input
-                    type="text"
-                    id="extraChoreInput"
-                    class="input input-bordered w-full"
-                    placeholder="Chore"
-                  />
-                </div>
-              </label>
-
-              <label class="form-control w-full">
-                <span class="label-text mb-1">Pay Amount</span>
-                <div class="flex flex-col sm:flex-row gap-2">
-                  <input
-                    type="number"
-                    id="extraChoreAmount"
-                    class="input input-bordered w-full"
-                    placeholder="$$"
-                  />
-                  <button class="btn btn-success" id="extraChoreBtn">Add Chore</button>
-                </div>
-              </label>
-            </div>
-          </div>
-
-          <div class="card bg-base-100 shadow-xl border border-base-300">
-            <div class="card-body">
-              <h2 class="card-title text-xl md:text-2xl">Extra Chore List</h2>
-
-              <div id="extraChoreList" class="min-h-40 bg-base-200 rounded-box p-4">
-                <p class="opacity-60" id="noExtraChores">No extra chores added yet.</p>
-                <ul id="choreList" class="label-text text-lg"></ul>
-              </div>
-            </div>
-          </div>
-  
           <div class="divider"></div>
-  
-          <div class="flex justify-center">
-            <label class="label cursor-pointer">
-              <span class="label-text font-semibold">Mark Week as Paid</span> 
-              <input type="checkbox" id="paidCheckbox" class="checkbox checkbox-success" />
+
+          <div class="space-y-3">
+            <label class="label cursor-pointer bg-base-200 rounded-box px-4 hover:bg-base-300 transition">
+              <span class="label-text text-lg">Monday</span>
+              <input type="checkbox" id="monday" class="checkbox checkbox-primary checkbox-lg dayCheckbox" />
+            </label>
+
+            <label class="label cursor-pointer bg-base-200 rounded-box px-4 hover:bg-base-300 transition">
+              <span class="label-text text-lg">Tuesday</span>
+              <input type="checkbox" id="tuesday" class="checkbox checkbox-primary checkbox-lg dayCheckbox" />
+            </label>
+
+            <label class="label cursor-pointer bg-base-200 rounded-box px-4 hover:bg-base-300 transition">
+              <span class="label-text text-lg">Wednesday</span>
+              <input type="checkbox" id="wednesday" class="checkbox checkbox-primary checkbox-lg dayCheckbox" />
+            </label>
+
+            <label class="label cursor-pointer bg-base-200 rounded-box px-4 hover:bg-base-300 transition">
+              <span class="label-text text-lg">Thursday</span>
+              <input type="checkbox" id="thursday" class="checkbox checkbox-primary checkbox-lg dayCheckbox" />
+            </label>
+
+            <label class="label cursor-pointer bg-base-200 rounded-box px-4 hover:bg-base-300 transition">
+              <span class="label-text text-lg">Friday</span>
+              <input type="checkbox" id="friday" class="checkbox checkbox-primary checkbox-lg dayCheckbox" />
+            </label>
+
+            <label class="label cursor-pointer bg-base-200 rounded-box px-4 hover:bg-base-300 transition">
+              <span class="label-text text-lg">Saturday</span>
+              <input type="checkbox" id="saturday" class="checkbox checkbox-primary checkbox-lg dayCheckbox" />
+            </label>
+
+            <label class="label cursor-pointer bg-base-200 rounded-box px-4 hover:bg-base-300 transition">
+              <span class="label-text text-lg">Sunday</span>
+              <input type="checkbox" id="sunday" class="checkbox checkbox-primary checkbox-lg dayCheckbox" />
             </label>
           </div>
-        </aside>
+        </div>
+      </div>
 
-      </section>
-    </main>
+      <!-- RIGHT / SIDE AREA -->
+      <aside class="space-y-6">
+        <div class="card bg-base-100 shadow-xl border border-base-300">
+          <div class="card-body gap-4">
+            <h2 class="card-title text-xl md:text-2xl">Extra Chores</h2>
+            <label class="form-control w-full">
+              <span class="label-text mb-1">Additional Chore</span>
+              <div class="flex flex-col sm:flex-row gap-2">
+                <input type="text" id="extraChoreInput" class="input input-bordered w-full" placeholder="Chore" />
+              </div>
+            </label>
 
-    <script type="module" src="index.js"></script>
-  </body>
+            <label class="form-control w-full">
+              <span class="label-text mb-1">Pay Amount</span>
+              <div class="flex flex-col sm:flex-row gap-2">
+                <input type="number" id="extraChoreAmount" class="input input-bordered w-full" placeholder="$$" />
+                <button class="btn btn-success" id="extraChoreBtn">Add Chore</button>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="card bg-base-100 shadow-xl border border-base-300">
+          <div class="card-body">
+            <h2 class="card-title text-xl md:text-2xl">Extra Chore List</h2>
+
+            <div id="extraChoreList" class="min-h-40 bg-base-200 rounded-box p-4">
+              <p class="opacity-60" id="noExtraChores">No extra chores added yet.</p>
+              <ul id="choreList" class="label-text text-lg"></ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="flex justify-center">
+          <label class="label cursor-pointer">
+            <span class="label-text font-semibold">Mark Week as Paid</span>
+            <input type="checkbox" id="paidCheckbox" class="checkbox checkbox-success" />
+          </label>
+        </div>
+      </aside>
+
+    </section>
+  </main>
+
+  <script type="module" src="index.js"></script>
+</body>
+
 </html>
