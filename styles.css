@@ -1,78 +1,9 @@
-body {
-  text-align: center;
-  border: 2px solid black;
-  color: black;
-  margin: 0;
-  box-sizing: border-box;
-}
-
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
-.child {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 50px;
-  border-bottom: 2px solid black;
-  padding-bottom: 15px;
-}
-
-.weekBlocks {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.weekOf {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 50px;
-}
-
-.day {
-  margin: 5px;
-  border: 2px solid black;
-  padding: 5px;
-}
-
-.pay {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 100px;
-}
-
-/* MEDIA QUERIES */
-
-@media (max-width: 768px) {
-  body {
-    width: 100%;
-    font-size: 18px;
-    padding: 10px;
-    margin: 0;
-  }
-
-  .child,
-  .weekOf,
-  .pay {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .weekBlocks {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-
-  .day {
-    border: 2px solid black;
-    padding: 10px;
-    margin: 0;
-  }
+.logo-font {
+  font-family: 'Poppins', sans-serif;
 }
