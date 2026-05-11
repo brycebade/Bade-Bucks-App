@@ -1,9 +1,7 @@
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
-
-const supabaseUrl = 'https://nbvvzaausrqrqhtuptqi.supabase.co'
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5idnZ6YWF1c3JxcnFodHVwdHFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxNjI4OTQsImV4cCI6MjA5MTczODg5NH0.oLkIV4-vyx3cc8xZWljW-r7iwnNsdmfTauwLjg4Sqk4'
-
-const supabase = createClient(supabaseUrl, supabaseKey)
+import { 
+  saveChildToSupabase,
+  loadChildren
+ } from "./storage.js"
 
 import { 
 dayChecks,
@@ -29,44 +27,9 @@ const PASSWORD = "05012021"
 
 let selectedChild = null
 
-const loadChildren = async () => {
-  const { data, error } = await supabase
-  .from('children')
-  .select('*')
-
-  if (error) {
-    console.log("ERROR loading children:", error)
-    return []
-  }
-
-  return data.map((row) => ({
-      id: row.id,
-      name: row.name,
-      payRates: row.data.payRates,
-      weeks: row.data.weeks
-    }))
-  }
-
 const init = async () => {
   children = await loadChildren()
   populateChildDropdown()
-}
-
-const saveChildToSupabase = async (child) => {
-  const { error } = await supabase
-  .from('children')
-  .update({
-    data: {
-      payRates: child.payRates,
-      weeks: child.weeks
-    }
-  })
-  .eq('id', child.id)
-
-  if (error) {
-    console.log("SAVE ERROR:", error)
-    return
-  } 
 }
 
 const createExtraChoreElement = (chore, selectedWeek) => {
