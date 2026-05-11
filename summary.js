@@ -9,7 +9,7 @@ import {
 
  export const updateSummary = (selectedChild) => {
     if (!selectedChild) {
-        renderSummry(0, 0)
+        renderSummary(0, 0)
         return
     }
 
