@@ -19,7 +19,11 @@ noExtraChores,
 } from "./dom.js"
 
 import { updateSummary } from "./summary.js"
-import { resetUI } from "./render.js"
+
+import { 
+  resetUI,
+  createExtraChoreElement
+ } from "./render.js"
 
 let children = []
 
@@ -30,61 +34,26 @@ let selectedChild = null
 const init = async () => {
   children = await loadChildren()
   populateChildDropdown()
-}
 
-const createExtraChoreElement = (chore, selectedWeek) => {
-  const li = document.createElement("li")
-  li.classList.add("flex", "items-center", "gap-3")
+  const savedChildId = localStorage.getItem("selectedChildId")
+  const savedWeekStart = localStorage.getItem("selectedWeekStart")
 
-  const checkbox = document.createElement("input")
-  checkbox.type = "checkbox"
-  checkbox.checked = chore.completed
-  checkbox.dataset.amount = String(chore.amount)
-  checkbox.classList.add("checkbox", "checkbox-primary", "checkbox-lg", "extraChoreCheckbox")
+  if (savedChildId) {
+    childOption.valie = savedChildId
 
-  const textSpan = document.createElement("span")
-  textSpan.textContent = `${chore.name} - $${chore.amount}`
+    selectedChild = children.find((child) => {
+      return child.id === savedChildId
+    })
 
-  if (chore.completed) {
-    textSpan.classList.add("line-through", "opacity-60")
+    if (selectedChild) {
+      childName.textContent = selectedChild.name
+    }
   }
 
-  const deleteBtn = document.createElement("button")
-  deleteBtn.textContent = "❌"
-  deleteBtn.classList.add("ml-6")
-
-  checkbox.addEventListener("change", async () => {
-    chore.completed = checkbox.checked
-
-    textSpan.classList.toggle("line-through", checkbox.checked)
-    textSpan.classList.toggle("opacity-60", checkbox.checked)
-    
-    updateSummary(selectedChild)
-
-    await saveChildToSupabase(selectedChild)
-  })
-
-  deleteBtn.addEventListener("click", () => {
-    const index = selectedWeek.extraChores.indexOf(chore)
-
-    if (index !== -1) {
-      selectedWeek.extraChores.splice(index, 1)
-    }
-
-    li.remove()
-    updateSummary(selectedChild)
-    saveChildToSupabase(selectedChild)
-
-    if (selectedWeek.extraChores.length === 0) {
-      noExtraChores.style.display = "block"
-    }
-  })
-
-  li.appendChild(checkbox)
-  li.appendChild(textSpan)
-  li.appendChild(deleteBtn)
-
-  return li
+  if (savedChildId && savedWeekStart) {
+    weekOption.value = savedWeekStart
+    weekOption.dispatchEvent(new Event("change"))
+  }
 }
 
 choreBtn.addEventListener("click", () => {
@@ -121,7 +90,7 @@ choreBtn.addEventListener("click", () => {
 
   noExtraChores.style.display = "none"
 
-  const li = createExtraChoreElement(newExtraChore, selectedWeek)
+  const li = createExtraChoreElement(newExtraChore, selectedWeek, selectedChild)
   choreList.appendChild(li)
 
   extraChore.value = ""
@@ -242,7 +211,7 @@ weekOption.addEventListener("change", () => {
   }
 
   selectedWeek.extraChores.forEach((chore) => {
-    const li = createExtraChoreElement(chore, selectedWeek)
+    const li = createExtraChoreElement(chore, selectedWeek, selectedChild)
     choreList.appendChild(li)
   })
 
@@ -375,26 +344,6 @@ payCheckbox.addEventListener("change", () => {
   updateSummary(selectedChild)
   saveChildToSupabase(selectedChild)
 });
-
-const savedChildId = localStorage.getItem("selectedChildId")
-const savedWeekStart = localStorage.getItem("selectedWeekStart")
-
-if (savedChildId) {
-    childOption.value = savedChildId
-
-    selectedChild = children.find((child) => {
-        return child.id === savedChildId
-    })
-        
-    if (selectedChild) {
-        childName.textContent = selectedChild.name
-    }
-}
-
-if (savedChildId && savedWeekStart) {
-    weekOption.value = savedWeekStart
-    weekOption.dispatchEvent(new Event("change"))
-}
 
 resetButton.addEventListener("click", () => {
     const confirmReset = confirm("Are you sure you want to reset all data?")
