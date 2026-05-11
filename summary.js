@@ -21,7 +21,7 @@ import {
     }
 
     const basePay = calculateBasePay(count, selectedChild.payRates)
-    const extraChorePay = calculateExtraChorePay()
+    const extraChorePay = calculateExtraChorePay(selectedWeek)
     const totalPay = calculateTotalPay(basePay, extraChorePay)
 
     renderSummary(count, totalPay)
