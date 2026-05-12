@@ -260,7 +260,7 @@ dayChecks.forEach((dayCheck) => {
   });
 });
 
-// UPDATE PAY
+// DAILY CHORE & WEEK PAID CHECKBOX LISTENER
 
 payCheckbox.addEventListener("change", () => {
   const selectedChildId = childOption.value;
@@ -305,6 +305,8 @@ payCheckbox.addEventListener("change", () => {
   updateSummary(selectedChild, selectedWeek)
   saveChildToSupabase(selectedChild)
 });
+
+// CLEAR SELECTION BUTTON
 
 resetButton.addEventListener("click", () => {
     const confirmReset = confirm("Are you sure you want to reset all data?")
