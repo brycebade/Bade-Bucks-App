@@ -25,6 +25,11 @@ import {
   createExtraChoreElement
  } from "./render.js"
 
+ import { 
+  getSelectedChild,
+  getSelectedWeek
+ } from "./utils.js"
+
 let children = []
 
 const PASSWORD = "05012021"
@@ -39,11 +44,9 @@ const init = async () => {
   const savedWeekStart = localStorage.getItem("selectedWeekStart")
 
   if (savedChildId) {
-    childOption.valie = savedChildId
+    childOption.value = savedChildId
 
-    selectedChild = children.find((child) => {
-      return child.id === savedChildId
-    })
+    selectedChild = getSelectedChild(children, savedChildId)
 
     if (selectedChild) {
       childName.textContent = selectedChild.name
@@ -68,9 +71,7 @@ choreBtn.addEventListener("click", () => {
   
   if (!selectedChild || selectedWeekStart === "") return
 
-  const selectedWeek = selectedChild.weeks.find((week) => {
-    return week.weekStart === selectedWeekStart
-  })
+  const selectedWeek = getSelectedWeek(selectedChild, selectedWeekStart)
 
   if (!selectedWeek) return
   
@@ -160,17 +161,13 @@ weekOption.addEventListener("change", () => {
   const selectedWeekText = weekOption.options[weekOption.selectedIndex].text
   weekText.textContent = `Week Of: ${selectedWeekText}`
 
-  selectedChild = children.find((child) => {
-      return child.id === selectedChildId
-  })
+  selectedChild = getSelectedChild(children, selectedChildId)
 
   if (!selectedChild) {
       return
   }
 
-  let selectedWeek = selectedChild.weeks.find((week) => {
-      return week.weekStart === selectedWeekStart
-  })
+  let selectedWeek = getSelectedWeek(selectedChild, selectedWeekStart)
 
   if (!selectedWeek) {
       selectedWeek = {
@@ -215,7 +212,7 @@ weekOption.addEventListener("change", () => {
     choreList.appendChild(li)
   })
 
-  updateSummary(selectedChild)
+  updateSummary(selectedChild, selectedWeek)
 })
 
 // FUNCTIONS OF CHILD DROP DOWN LIST
@@ -226,9 +223,7 @@ childOption.addEventListener("change", () => {
   localStorage.setItem("selectedChildId", selectedChildId)
   localStorage.removeItem("selectedWeekStart")
   
-  const foundChild = children.find((child) => {
-      return child.id === selectedChildId
-  })
+  const foundChild = getSelectedChild(children, selectedChildId)
 
   weekOption.value = ""
   weekText.textContent = "Week Of: "
@@ -254,17 +249,13 @@ dayChecks.forEach((dayCheck) => {
       return;
     }
 
-    selectedChild = children.find((child) => {
-      return child.id === selectedChildId
-    });
+    selectedChild = getSelectedChild(children, selectedChildId)
 
     if (!selectedChild) {
       return;
     }
 
-    let selectedWeek = selectedChild.weeks.find((week) => {
-      return week.weekStart === selectedWeekStart;
-    });
+    let selectedWeek = getSelectedWeek(selectedChild, selectedWeekStart)
 
     if (!selectedWeek) {
         selectedWeek = {
@@ -290,7 +281,7 @@ dayChecks.forEach((dayCheck) => {
 
     selectedWeek[day] = isChecked;
 
-    updateSummary(selectedChild)
+    updateSummary(selectedChild, selectedWeek)
     saveChildToSupabase(selectedChild)
   });
 });
@@ -305,17 +296,13 @@ payCheckbox.addEventListener("change", () => {
     return;
   }
 
-  selectedChild = children.find((child) => {
-    return child.id === selectedChildId
-  });
+  selectedChild = getSelectedChild(children, selectedChildId)
 
   if (!selectedChild) {
     return
   }
 
-  const selectedWeek = selectedChild.weeks.find((week) => {
-    return week.weekStart === selectedWeekStart;
-  });
+  const selectedWeek = getSelectedWeek(selectedChild, selectedWeekStart)
 
   if (!selectedWeek) {
     return;
@@ -341,7 +328,7 @@ payCheckbox.addEventListener("change", () => {
     }
   });
 
-  updateSummary(selectedChild)
+  updateSummary(selectedChild, selectedWeek)
   saveChildToSupabase(selectedChild)
 });
 

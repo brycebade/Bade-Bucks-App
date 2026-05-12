@@ -1,4 +1,4 @@
-import { supabase } from "./supabaseClient"
+import { supabase } from "./supabaseClient.js"
 
 export const saveToStorage = (children) => {
     localStorage.setItem("children", JSON.stringify(children))

@@ -7,8 +7,8 @@ import {
     calculateExtraChorePay
  } from "./calculations.js"
 
- export const updateSummary = (selectedChild) => {
-    if (!selectedChild) {
+ export const updateSummary = (selectedChild, selectedWeek) => {
+    if (!selectedChild || !selectedWeek) {
         renderSummary(0, 0)
         return
     }

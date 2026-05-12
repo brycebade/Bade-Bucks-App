@@ -53,7 +53,7 @@ export const createExtraChoreElement = (chore, selectedWeek, selectedChild) => {
     textSpan.classList.toggle("line-through", checkbox.checked)
     textSpan.classList.toggle("opacity-60", checkbox.checked)
     
-    updateSummary(selectedChild)
+    updateSummary(selectedChild, selectedWeek)
 
     await saveChildToSupabase(selectedChild)
   })
@@ -66,7 +66,7 @@ export const createExtraChoreElement = (chore, selectedWeek, selectedChild) => {
     }
 
     li.remove()
-    updateSummary(selectedChild)
+    updateSummary(selectedChild, selectedWeek)
     saveChildToSupabase(selectedChild)
 
     if (selectedWeek.extraChores.length === 0) {
