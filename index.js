@@ -27,7 +27,9 @@ import {
 
  import { 
   getSelectedChild,
-  getSelectedWeek
+  getSelectedWeek,
+  createWeek,
+  ensureExtraChores
  } from "./utils.js"
 
 let children = []
@@ -81,9 +83,7 @@ choreBtn.addEventListener("click", () => {
     completed: false
   }
 
-  if (!selectedWeek.extraChores) {
-    selectedWeek.extraChores = []
-  }
+  ensureExtraChores(selectedWeek)
 
   selectedWeek.extraChores.push(newExtraChore)
 
@@ -170,26 +170,13 @@ weekOption.addEventListener("change", () => {
   let selectedWeek = getSelectedWeek(selectedChild, selectedWeekStart)
 
   if (!selectedWeek) {
-      selectedWeek = {
-        weekStart: selectedWeekStart,
-        monday: false,
-        tuesday: false,
-        wednesday: false,
-        thursday: false,
-        friday: false,
-        saturday: false,
-        sunday: false,
-        isPaid: false,
-        extraChores: []
-      }
+    selectedWeek = createWeek(selectedWeekStart)
 
-      selectedChild.weeks.push(selectedWeek)
-      saveChildToSupabase(selectedChild)
+    selectedChild.weeks.push(selectedWeek)
+    saveChildToSupabase(selectedChild)
   }
 
-  if (!selectedWeek.extraChores) {
-    selectedWeek.extraChores = []
-  }
+  ensureExtraChores(selectedWeek)
 
   dayChecks.forEach((dayCheck) => {
       const day = dayCheck.id
@@ -258,26 +245,13 @@ dayChecks.forEach((dayCheck) => {
     let selectedWeek = getSelectedWeek(selectedChild, selectedWeekStart)
 
     if (!selectedWeek) {
-        selectedWeek = {
-            weekStart: selectedWeekStart,
-            monday: false,
-            tuesday: false,
-            wednesday: false,
-            thursday: false,
-            friday: false,
-            saturday: false,
-            sunday: false,
-            isPaid: false,
-            extraChores: []
-        }
+      selectedWeek = createWeek(selectedWeekStart)
 
-        selectedChild.weeks.push(selectedWeek)
-        saveChildToSupabase(selectedChild)
+      selectedChild.weeks.push(selectedWeek)
+      saveChildToSupabase(selectedChild)
     }
 
-    if (!selectedWeek.extraChores) {
-    selectedWeek.extraChores = []
-  }
+    ensureExtraChores(selectedWeek)
 
     selectedWeek[day] = isChecked;
 
